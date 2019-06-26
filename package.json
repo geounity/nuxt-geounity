@@ -18,6 +18,7 @@
     "vuetify-loader": "^1.0.5"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-transform-imports": "^1.5.1",
     "eslint": "^5.7.0",

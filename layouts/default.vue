@@ -76,22 +76,25 @@
     <v-footer :fixed="fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+    <gu-bottom-nav></gu-bottom-nav>
   </v-app>
 </template>
 
 <script>
+  import GuBottomNav from '~/components/layout/BottomNav.vue'
   export default {
+    components: { GuBottomNav },
     data () {
       return {
         clipped: false,
         drawer: true,
         fixed: false,
         items: [
-          { icon: 'apps', title: 'Home', to: '/' },
-          { icon: 'bubble_chart', title: 'Statics', to: '/statics' },
-          { icon: 'bubble_chart', title: 'Debates', to: '/debates' },
-          { icon: 'bubble_chart', title: 'Aims', to: '/aims' },
-          { icon: 'bubble_chart', title: 'Communities', to: '/communities' }
+          { icon: 'home', title: 'Home', to: '/' },
+          { icon: '$vuetify.icons.chart', title: 'Statics', to: '/statics' },
+          { icon: '$vuetify.icons.debate', title: 'Debates', to: '/debates' },
+          { icon: '$vuetify.icons.aim', title: 'Aims', to: '/aims' },
+          { icon: '$vuetify.icons.community', title: 'Communities', to: '/communities' }
         ],
         miniVariant: false,
         right: true,
