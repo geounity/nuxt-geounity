@@ -2,6 +2,9 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import Vue from 'vue'
 import Vuetify, {
   VApp, // required
+  VAlert,
+  VAvatar,
+  VBreadcrumbs,
   VBottomNav,
   VBtn,
   VIcon,
@@ -14,6 +17,9 @@ import { Ripple } from 'vuetify/lib/directives'
 Vue.use(Vuetify, {
   components: {
     VApp,
+    VAlert,
+    VAvatar,
+    VBreadcrumbs,
     VBottomNav,
     VBtn,
     VIcon,
