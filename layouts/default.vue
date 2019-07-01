@@ -2,30 +2,32 @@
   <v-app>
 
     <gu-toolbar></gu-toolbar>
-    <div>
-      <v-alert value="true" type="warning" class="mt-5">Estamos en modo desarrollo</v-alert>
-    </div>
-    <gu-breadcrumbs></gu-breadcrumbs>
-
+    
     <v-content>
+      <v-alert :value="alert" type="warning">Estamos en modo desarrollo</v-alert>
+      <gu-breadcrumbs v-if="logged"></gu-breadcrumbs>
       <v-container>
         <nuxt />
+        <gu-footer></gu-footer>
       </v-container>
     </v-content>
 
     <gu-bottom-nav class="hidden-md-and-up"></gu-bottom-nav>
-
+    
   </v-app>
 </template>
 
 <script>
-  import GuToolbar from '~/components/layout/Toolbar.vue'
-  import GuBottomNav from '~/components/layout/BottomNav.vue'
-  import GuBreadcrumbs from '~/components/Breadcrumbs.vue'
+  import guToolbar from '~/components/layout/Toolbar.vue'
+  import guBottomNav from '~/components/layout/BottomNav.vue'
+  import guBreadcrumbs from '~/components/Breadcrumbs.vue'
+  import guFooter from '~/components/layout/Footer'
   export default {
-    components: { GuBottomNav, GuToolbar, GuBreadcrumbs },
+    components: { guBottomNav, guToolbar, guBreadcrumbs, guFooter },
     data () {
       return {
+        logged: false,
+        alert: false,
         miniVariant: false,
         right: true,
         rightDrawer: false

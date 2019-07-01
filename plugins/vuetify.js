@@ -7,6 +7,7 @@ import Vuetify, {
   VBreadcrumbs,
   VBottomNav,
   VBtn,
+  VCard,
   VIcon,
   VNavigationDrawer,
   VFooter,
@@ -22,6 +23,7 @@ Vue.use(Vuetify, {
     VBreadcrumbs,
     VBottomNav,
     VBtn,
+    VCard,
     VIcon,
     VNavigationDrawer,
     VFooter,
@@ -32,12 +34,13 @@ Vue.use(Vuetify, {
   },
   iconfont: 'fa',
   icons: {
-    'community': 'fas fa-users',
-    'chart': 'fas fa-chart-line',
-    'debate': 'far fa-dot-circle',
     'aim': 'far fa-lightbulb',
-    'github': 'fab fa-github',
+    'chart': 'fas fa-chart-line',
+    'community': 'fas fa-users',
+    'debate': 'far fa-dot-circle',
     'facebook': 'fab fa-facebook',
-    'instagram': 'fab fa-instagram'
+    'instagram': 'fab fa-instagram',
+    'github': 'fab fa-github',
+    'share': 'fas fa-share-alt'
   }
 })

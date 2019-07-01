@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-breadcrumbs(:items="items" divider="<")
+  v-breadcrumbs(:items="items" divider="<" small light)
 </template>
 
 <script>

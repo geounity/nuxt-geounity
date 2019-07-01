@@ -3,6 +3,7 @@
     :active.sync="bottomNav"
     :value="true"
     fixed
+    shift
     dark
     app
   )

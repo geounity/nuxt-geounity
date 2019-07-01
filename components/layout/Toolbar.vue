@@ -1,12 +1,12 @@
 <template lang="pug">
-  v-toolbar( fixed app )
+  v-toolbar( color="#8e44ad" fixed dark app )
     v-toolbar-title(v-text="title")
     v-spacer
     v-toolbar-items.hidden-sm-and-down
-      v-btn( flat  nuxt :to="item.to" :key="i" v-for="(item, i) in items" exact v-text="item.title" )
+      v-btn( nuxt :to="item.to" exact :key="i" v-for="(item, i) in items" v-text="item.title" flat )
     v-toolbar-items
-      v-btn( nuxt to="/signin" color="success" small flat) Login
-      v-btn( nuxt to="/signup" color="success" small) Registrarse
+      v-btn( nuxt to="/signin" small flat) Login
+      v-btn( nuxt to="/signup" color="success" small) <strong>Registrarte</strong>
 </template>
 
 <script>
