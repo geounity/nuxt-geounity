@@ -3,7 +3,6 @@ import apiGeounity from './api'
 const countryService = {}
 
 countryService.getByContinent = (continent) => {
-  console.log('EE:' + continent)
   return apiGeounity.get(`/rest/v2/region/${continent}`).then(res => res.data)
 }
 

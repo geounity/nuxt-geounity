@@ -8,12 +8,12 @@
       <gu-breadcrumbs v-if="logged"></gu-breadcrumbs>
       <v-container>
         <nuxt />
-        <gu-footer></gu-footer>
       </v-container>
+      <gu-footer></gu-footer>
     </v-content>
 
     <gu-bottom-nav class="hidden-md-and-up"></gu-bottom-nav>
-    
+
   </v-app>
 </template>
 

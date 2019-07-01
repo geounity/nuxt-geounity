@@ -1,10 +1,9 @@
-<template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12>
-      <h1>Comunidad Global</h1>
-    </v-flex>
-    <v-flex xs12 sm6 d-flex>
-      <v-select
+<template lang="pug">
+  v-layout(column justify-center align-center)
+    v-flex(xs12)
+      h1 Comunidad Global
+    v-flex(xs12 sm6 d-flex)
+      v-select(
         :items="continents"
         label="Continent"
         v-model="selectedContinent"
@@ -12,16 +11,16 @@
         dense
         full-width
         @change="getByContinent"
-      ></v-select>
-    </v-flex>
-    <v-flex xs12 sm6 d-flex>
-      <v-select
+      )
+    v-flex(xs12 sm6 d-flex)
+      v-select(
         :items="countries"
         label="Country"
-        :disabled="!countries"
+        :disabled="countries.length === 0"
         :loading="loading"
-      ></v-select>
-    </v-flex>
+      )
+    v-flex(xs12 sm6 d-flex)
+      v-btn( nuxt to="/signup" color="success") <strong>Unete</strong>
   </v-layout>
 </template>
 
@@ -38,7 +37,7 @@ export default {
       loading: false,
       continents,
       selectedContinent: '',
-      countries: ''
+      countries: []
     }
   },
 

@@ -6,7 +6,7 @@
       v-btn( nuxt :to="item.to" exact :key="i" v-for="(item, i) in items" v-text="item.title" flat )
     v-toolbar-items
       v-btn( nuxt to="/signin" small flat) Login
-      v-btn( nuxt to="/signup" color="success" small) <strong>Registrarte</strong>
+      v-btn( nuxt to="/signup" small flat) <strong>Registrate</strong>
 </template>
 
 <script>
