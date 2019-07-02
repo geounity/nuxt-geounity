@@ -27,17 +27,24 @@
 <script>
 import countryService from '~/plugins/countries'
 
-const continents = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
-
 export default {
   name: 'index',
 
   data () {
     return {
-      loading: false,
-      continents,
-      selectedContinent: '',
-      countries: []
+      selectedContinent: ''
+    }
+  },
+
+  computed: {
+    continents () {
+      return this.$store.state.continents
+    },
+    countries () {
+      return this.$store.state.countries
+    },
+    loading () {
+      return this.$store.state.loading
     }
   },
 
