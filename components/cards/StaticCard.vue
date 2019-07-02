@@ -3,19 +3,18 @@
     v-card-title {{static.title}}
     v-card-text {{static.description}}
     v-card-text
-      chart
+      h2 Chart
     v-card-actions
       v-btn(color="success") Algunos botones
       v-btn(color="info") {{static.author}}
-      v-btn(color="warning") Otro mas
 </template>
 <script>
-import Chart from '~/components/Chart.vue'
+// import Chart from '~/components/Chart.vue'
 export default {
   name: 'StaticCard',
   props: {
     static: Object
-  },
-  components: { Chart }
+  }
+  // components: { Chart }
 }
 </script>

@@ -1,11 +1,18 @@
-<template>
-  <div class="empty_state">
-    <i class="ion-sad-outline"></i>
-    <h3 class="">No posts</h3>
-    <p>There have been no posts in this section yet</p>
-    <button>Call to action</button>
-  </div>
+<template lang="pug">
+  .empty_state
+    i.ion-sad-outline
+    h3 No hay {{page}} en esta comunidad
+    p Para crear una {{page}} registrate
+    v-btn(color="success") Registrarte
 </template>
+
+<script>
+export default {
+  name: 'emptyPage',
+  props: ['page']
+}
+</script>
+
 
 <style lang="stylus">
   body,html{

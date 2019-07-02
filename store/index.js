@@ -1,9 +1,20 @@
 export const state = () => ({
-  sidebar: false
+  logged: false,
+  community: {
+    name: 'global',
+    type: 'geographic',
+    level: 1
+  },
+  statics: [],
+  debates: [],
+  aims: []
 })
 
 export const mutations = {
-  toggleSidebar (state) {
-    state.sidebar = !state.sidebar
+  loginUser (state) {
+    state.logged = true
+  },
+  closeSessionUser (state) {
+    state.logged = false
   }
 }
