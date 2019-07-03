@@ -15,21 +15,7 @@
       v-stepper-content(step="1")
         v-form
           h3.title En que lugar del mundo estas?
-          v-select(
-            :items="continents"
-            label="Continent"
-            v-model="selectedContinent"
-            background-color="#eee"
-            dense
-            full-width
-            @change="getByContinent"
-          )
-          v-select(
-            :items="countries"
-            label="Country"
-            :disabled="countries.length === 0"
-            :loading="loading"
-          )
+          select-community
 
       v-stepper-content(step="2")
         v-form(v-model="valid" ref="form")
@@ -75,9 +61,11 @@
 </template>
 
 <script>
-  import countryService from '~/plugins/countries'
+  import selectCommunity from '~/components/forms/selectCommunity'
+
   export default {
     name: 'signup',
+    components: { selectCommunity },
     data () {
       return {
         step: 1,
@@ -112,13 +100,6 @@
       }
     },
     methods: {
-      getByContinent () {
-        this.loading = !this.loading
-        countryService.getByContinent(this.selectedContinent).then(res => {
-          this.countries = res.map(country => country.name)
-        })
-        this.loading = !this.loading
-      },
       validate () {
         console.log('Formulario enviado')
         if (this.$refs.form.validate()) {

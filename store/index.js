@@ -2,16 +2,17 @@ export const state = () => ({
   loading: false,
   error: false,
   logged: false,
+  user: null,
+  authId: '3u8932748973298',
   community: {
+    id: 1,
     name: 'global',
     type: 'geographic',
     level: 1
   },
   statics: [],
   debates: [],
-  aims: [],
-  continents: ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'],
-  countries: []
+  aims: []
 })
 
 export const getters = () => ({})

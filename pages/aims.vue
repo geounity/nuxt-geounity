@@ -1,5 +1,6 @@
 <template lang="pug">
-  empty-page(page="ideas")
+  div
+    empty-page(page="ideas")
 </template>
 
 <script>

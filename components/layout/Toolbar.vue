@@ -3,10 +3,11 @@
     v-toolbar-title(v-text="title")
     v-spacer
     v-toolbar-items.hidden-sm-and-down
-      v-btn( nuxt :to="item.to" exact :key="i" v-for="(item, i) in items" v-text="item.title" flat )
+      v-btn( nuxt :to="item.to" exact :key="i" v-for="(item, i) in items" flat ) {{item.title}}
     v-toolbar-items
       v-btn( nuxt to="/signin" small flat) Login
-      v-btn( nuxt to="/signup" small flat) <strong>Registrate</strong>
+      v-btn( nuxt to="/signup" small flat)
+        strong Registrate
 </template>
 
 <script>
