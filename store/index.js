@@ -1,12 +1,15 @@
 export const state = () => ({
   loading: false,
   error: false,
-  logged: false,
-  user: null,
   authId: '3u8932748973298',
+  user: {
+    username: null,
+    email: null,
+    logged: false
+  },
   community: {
     id: 1,
-    name: 'global',
+    name: '',
     type: 'geographic',
     level: 1
   },
@@ -19,6 +22,9 @@ export const getters = () => ({})
 export const actions = () => ({})
 
 export const mutations = {
+  updateCommunity (state, payload = {}) {
+    state.community.name = payload.name || 'global'
+  },
   loginUser (state) {
     state.logged = true
   },

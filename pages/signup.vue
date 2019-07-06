@@ -13,12 +13,13 @@
 
     v-stepper-items
       v-stepper-content(step="1")
-        v-form
-          h3.title En que lugar del mundo estas?
-          select-community
+        p Al crear un usuario automáticamente perteneceras a la Comunidad Global. #[i Nivel 1]
+        p #[em Solo podras pertencer a una comunidad por nivel]
+        select-community(:showbtn="false")
+        v-btn(color="success" @click="step = 2" block) Continue        
 
       v-stepper-content(step="2")
-        v-form(v-model="valid" ref="form")
+        v-form(v-model="value" ref="form" lazy-validation)
           v-text-field(
             v-model="form.email"  
             :rules="emailRules"
@@ -44,11 +45,20 @@
             name="password"
             type="password"
           )
-        v-btn(:disabled="!valid" color="success" @click="validate") Continue        
+          v-checkbox(
+            v-model="checkbox"
+            :rules="[v => !!v || 'You must agree to continue!']"
+            label="Acepto los Terminos y Condiciones"
+            required
+          )
+ 
+        v-btn(:disabled="!value" color="success" block @click="validate") Continue        
+        v-btn(color="transparent" block @click="authGoogle") con Google
+        v-btn(color="info" block @click="authFacebook") con Facebook
         v-btn(flat) Cancel
 
       v-stepper-content(step="3")
-        v-card(
+        v-card( 
           class="mb-5"
           color="grey lighten-1"
           height="200px"
@@ -62,15 +72,17 @@
 
 <script>
   import selectCommunity from '~/components/forms/selectCommunity'
+  import userService from '~/plugins/user'
 
   export default {
     name: 'signup',
     components: { selectCommunity },
     data () {
       return {
-        step: 1,
         errors: '',
-        valid: false,
+        value: true,
+        checkbox: false,
+        step: 1,
         form: {
           email: '',
           username: '',
@@ -103,11 +115,20 @@
       validate () {
         console.log('Formulario enviado')
         if (this.$refs.form.validate()) {
-          this.valid = !this.valid
+          console.log('Formulario valido')
+          userService.createWithEmail(this.form.email, this.form.password, this.form.username)
           this.step++
         } else {
           console.log('Formulario INVALIDO!')
         }
+      },
+      authGoogle () {
+        userService.authWithGoogle()
+        this.step++
+      },
+      authFacebook () {
+        userService.authWithFacebook()
+        this.step++
       }
     }
   }

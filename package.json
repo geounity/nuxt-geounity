@@ -12,6 +12,7 @@
     "lint": "standard"
   },
   "dependencies": {
+    "cross-env": "^5.2.0",
     "firebase": "^6.2.4",
     "nuxt": "^2.2.0",
     "pug": "^2.0.4",
