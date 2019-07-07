@@ -1,5 +1,6 @@
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const webpack = require('webpack')
 module.exports = {
   /*
   ** Headers of the page
@@ -14,7 +15,13 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
+      { rel: 'stylesheet', type: 'text/css', href: 'cssmap-continents/cssmap-continents.css', media: 'screen' }
+    ],
+    script: [
+      { type: 'text/javascript', src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js', body: true },
+      { type: 'text/javascript', src: 'https://cssmapsplugin.com/5/jquery.cssmap.min.js', body: true }
+
     ]
   },
   plugins: ['~/plugins/vuetify.js', '~/plugins/firebase.js'],
@@ -29,6 +36,11 @@ module.exports = {
   build: {
     transpile: [/^vuetify/],
     plugins: [
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      }),
       new VuetifyLoaderPlugin()
     ],
     extractCSS: true,

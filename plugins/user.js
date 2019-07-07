@@ -20,15 +20,22 @@ userService.createWithEmail = (email, password, username) => {
       console.error(e)
     })
 }
+userService.signInWithEmail = (email, password) => {
+  return fb.auth().signInWithEmailAndPassword(email, password)
+    .catch(function (error) {
+      var errorCode = error.code
+      var errorMessage = error.message
+      console.error(errorCode, errorMessage)
+    })
+}
 userService.authWithGoogle = () => {
   const provider = new fb.auth.GoogleAuthProvider()
-  fb.auth().signInWithPopup(provider)
+  return fb.auth().signInWithPopup(provider)
     .then((res) => {
-      var token = res.credential.accessToken
-      var user = res.user
-      console.log('Token: ', token)
-      console.log('user: ', user)
-      return true
+      // var token = res.credential.accessToken
+      // var user = res.user
+      console.log('Respuesta: ')
+      console.log(res)
     })
     .catch(function (error) {
       // Handle Errors here.
@@ -39,7 +46,6 @@ userService.authWithGoogle = () => {
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential
       console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
-      return false
     })
 }
 userService.authWithFacebook = () => {

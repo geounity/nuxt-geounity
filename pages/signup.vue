@@ -13,8 +13,6 @@
 
     v-stepper-items
       v-stepper-content(step="1")
-        p Al crear un usuario automáticamente perteneceras a la Comunidad Global. #[i Nivel 1]
-        p #[em Solo podras pertencer a una comunidad por nivel]
         select-community(:showbtn="false")
         v-btn(color="success" @click="step = 2" block) Continue        
 
@@ -58,13 +56,9 @@
         v-btn(flat) Cancel
 
       v-stepper-content(step="3")
-        v-card( 
-          class="mb-5"
-          color="grey lighten-1"
-          height="200px"
-        )
+        
 
-        v-btn(color="primary" @click="step = 1") Continue
+        v-btn(color="primary" @click="saveData") Continue
         
         v-btn(flat) Cancel
     
@@ -124,11 +118,11 @@
       },
       authGoogle () {
         userService.authWithGoogle()
-        this.step++
+          .then(() => this.step++)
       },
       authFacebook () {
         userService.authWithFacebook()
-        this.step++
+          .then(() => this.step++)
       }
     }
   }

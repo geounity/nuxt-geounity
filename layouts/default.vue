@@ -6,9 +6,9 @@
     <v-content>
       <v-alert :value="alert" type="warning">Estamos en modo desarrollo</v-alert>
       <gu-breadcrumbs v-if="logged"></gu-breadcrumbs>
-      <v-container>
-        <nuxt />
-      </v-container>
+      
+      <nuxt />
+      
       <gu-footer></gu-footer>
     </v-content>
 
