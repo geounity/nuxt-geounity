@@ -1,3 +1,4 @@
+
 export const state = () => ({
   loading: false,
   error: false,
@@ -25,10 +26,10 @@ export const mutations = {
   updateCommunity (state, payload = {}) {
     state.community.name = payload.name || 'global'
   },
-  loginUser (state) {
-    state.logged = true
+  signIn (state) {
+    state.user.logged = true
   },
-  closeSessionUser (state) {
-    state.logged = false
+  signOut (state) {
+    state.user.logged = false
   }
 }

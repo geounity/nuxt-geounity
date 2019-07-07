@@ -40,7 +40,7 @@ userService.authWithGoogle = () => {
     .catch(function (error) {
       // Handle Errors here.
       var errorCode = error.code
-      var errorMessage = error.message
+      var errorMessage = error.messagnupge
       // The email of the user's account used.
       var email = error.email
       // The firebase.auth.AuthCredential type that was used.
@@ -66,6 +66,9 @@ userService.authWithFacebook = () => {
       console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
       return false
     })
+}
+userService.isAuth = () => {
+  return fb.auth().currentUser
 }
 
 export default userService

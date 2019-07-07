@@ -58,7 +58,7 @@
       v-stepper-content(step="3")
         
 
-        v-btn(color="primary" @click="saveData") Continue
+        v-btn(color="primary") Continue
         
         v-btn(flat) Cancel
     
