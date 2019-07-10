@@ -1,5 +1,5 @@
 const configServices = {
-  apiUrl: 'https://restcountries.eu'
+  apiUrl: 'http://localhost:4949'
 }
 
 export default configServices

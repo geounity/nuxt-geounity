@@ -13,7 +13,7 @@
 
     v-stepper-items
       v-stepper-content(step="1")
-        select-community(:showbtn="false")
+        select-community(:showbtn="false", :index="false")
         v-btn(color="success" @click="step = 2" block) Continue        
 
       v-stepper-content(step="2")

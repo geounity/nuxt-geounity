@@ -6,15 +6,22 @@
         h1.title Comunidad Global
       v-flex(xs12 sm6).full-width
         h2.caption.text-xs-center NIVEL 2
-        #map-continents
-          ul.continents
-            li.c1: a(href='#africa' @click='selectContinent') Africa
-            li.c2: a(href='#asia' @click='selectContinent') Asia
-            li.c3: a(href='#australia' @click='selectContinent') Australia
-            li.c4: a(href='#europe' @click='selectContinent') Europe
-            li.c5: a(href='#north-america' @click='selectContinent') North America
-            li.c6: a(href='#south-america' @click='selectContinent') South America
-      //- If select continent show countries with in.
+        div(v-if='index')          
+          #map-continents
+            ul.continents
+              li.c1: a(href='#Africa' rel="nofollow") Africa
+              li.c2: a(href='#Asia' rel="nofollow") Asia
+              li.c3: a(href='#Oceania' rel="nofollow") Oceania
+              li.c4: a(href='#Europe' rel="nofollow") Europe
+              li.c5: a(href='#Americas' rel="nofollow") North America
+              li.c6: a(href='#Americas' rel="nofollow") South America
+        v-select(
+          v-else
+          :items='continents'
+          label='Continent'
+          v-model='selectedContinent'
+          full-width
+        )
       v-flex(xs12 sm6).full-width.text-xs-center
         h2.caption NIVEL 3
         v-select(
@@ -25,8 +32,9 @@
           :loading='loading'
           full-width
         )
+        
       v-flex(xs12 sm6)
-        p #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', '+this.selectedContinent+'.':'.'}}
+        p #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
       v-flex(xs12 sm6 d-flex v-if='showbtn')
         v-btn( nuxt to='/signup' color='success')
           strong Unete
@@ -37,49 +45,74 @@ import communityService from '~/plugins/community'
 export default {
   name: 'selectCommunity',
   props: {
-    showbtn: { type: Boolean, required: false, default: true }
+    showbtn: { type: Boolean, required: false, default: true },
+    index: { type: Boolean, required: false, default: true }
   },
   data () {
     return {
       loading: false,
       disabled: true,
-      selectedContinent: this.$store.state.community.name,
+      continents: ['Asia', 'Africa', 'Americas', 'Europe', 'Oceania', 'Polos'],
+      selectedContinent: '',
       countries: [],
       selectedCountry: ''
     }
   },
-  mounted: () => {
+  async mounted () {
+    let l = this.geocommunity.length
+    if (l > 1) {
+      this.selectedContinent = this.geocommunity[1].name
+      console.log('Continente: ' + this.geocommunity[1].name)
+    }
+    if (l > 2) {
+      this.selectedCountry = this.geocommunity[2].name
+      console.log('Pais: ' + this.geocommunity[2].name)
+    }
     // CSSMap;
-    window.$('#map-continents').CSSMap({
-      'size': 540,
-      'mapStyle': 'vintage',
-      'tooltips': 'floating-top-center',
-      'responsive': 'auto',
-      'tapOnce': true
+    let self = this
+    window.$(document).ready(function () {
+      window.$('#map-continents').CSSMap({
+        'size': 850,
+        onClick: function (listItem) {
+          self.selectedContinent = listItem[0].textContent
+        }
+      })
+      // END OF THE CSSMap;
     })
-    // END OF THE CSSMap;
   },
-  methods: {
-    selectContinent (continent) {
-      console.log('selectContinent')
-      console.log(continent)
-      // this.loading = !this.loading
-      // this.countries = await communityService.getAllByContinent(continent).then(res => res.map(country => country.name))
-      // this.loading = !this.loading
-      // this.disabled = false
-      // this.$store.commit('updateCommunity', { name: this.selectedContinent })
+  computed: {
+    geocommunity () {
+      return this.$store.state.geocommunity
+    }
+  },
+  watch: {
+    async selectedContinent (newVal) {
+      this.loading = !this.loading
+      if (newVal === 'South America' || newVal === 'North America') {
+        newVal = 'Americas'
+      }
+      this.countries = await communityService.getAllByContinent(newVal).then(res => res)
+      this.loading = !this.loading
+      this.disabled = false
+      this.$store.commit('updateCommunity', { name: newVal, level: 1 })
     },
     search () {
       communityService.search().then(res => {
         const arr = res.map(country => country.name)
         console.log(arr)
       })
+    },
+    selectedCountry (newVal) {
+      this.$store.commit('updateCommunity', { name: newVal, level: 2 })
     }
   }
 }
 </script>
 
 <style scoped>
+.continents{
+  border: 2px solid red;
+}
 a{
   color: transparent;
   text-decoration: none;

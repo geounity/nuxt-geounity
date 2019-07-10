@@ -1,4 +1,3 @@
-
 export const state = () => ({
   loading: false,
   error: false,
@@ -8,12 +7,11 @@ export const state = () => ({
     email: null,
     logged: false
   },
-  community: {
-    id: 1,
-    name: '',
-    type: 'geographic',
-    level: 1
-  },
+  geocommunity: [
+    {
+      name: 'Global'
+    }
+  ],
   statics: [],
   debates: [],
   aims: []
@@ -24,7 +22,7 @@ export const actions = () => ({})
 
 export const mutations = {
   updateCommunity (state, payload = {}) {
-    state.community.name = payload.name || 'global'
+    state.geocommunity[payload.level] = { name: payload.name }
   },
   signIn (state) {
     state.user.logged = true

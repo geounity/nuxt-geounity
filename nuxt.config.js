@@ -2,6 +2,10 @@ const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const webpack = require('webpack')
 module.exports = {
+  dev: (process.env.NODE_ENV !== 'production'),
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  },
   /*
   ** Headers of the page
   */
