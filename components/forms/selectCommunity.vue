@@ -88,10 +88,13 @@ export default {
   watch: {
     async selectedContinent (newVal) {
       this.loading = !this.loading
-      if (newVal === 'South America' || newVal === 'North America') {
-        newVal = 'Americas'
+      if (newVal === 'South America') {
+        this.countries = ['Argentina', 'Bolivia', 'Brasil', 'Colombia', 'Chile', 'Ecuador', 'Guyana', 'Guyana francesa', 'Paraguay', 'Peru', 'Surinam', 'Venezuela', 'Uruguay']
+      } else if (newVal === 'North America') {
+        this.countries = await communityService.getAllByContinent('Americas').then(res => res)
+      } else {
+        this.countries = await communityService.getAllByContinent(newVal).then(res => res)
       }
-      this.countries = await communityService.getAllByContinent(newVal).then(res => res)
       this.loading = !this.loading
       this.disabled = false
       this.$store.commit('updateCommunity', { name: newVal, level: 1 })

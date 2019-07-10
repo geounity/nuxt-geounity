@@ -1,11 +1,5 @@
 <template lang="pug">
-  div
-    empty-page(page="encuestas").mt-3
-    gu-static-card(
-      v-for="s in statics"
-      :key="s.id"
-      :static="s"
-    )
+  empty-page(page="encuestas").mt-3
 </template>
 
 <script>

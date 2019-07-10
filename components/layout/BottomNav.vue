@@ -2,9 +2,8 @@
   v-bottom-nav(
     :active.sync="bottomNav"
     :value="true"
+    color="#fff"
     fixed
-    shift
-    dark
     app
   )
     v-btn(

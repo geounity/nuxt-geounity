@@ -13,85 +13,40 @@
 
     v-stepper-items
       v-stepper-content(step="1")
-        select-community(:showbtn="false", :index="false")
-        v-btn(color="success" @click="step = 2" block) Continue        
+        v-layout( justify-center row wrap)
+          v-flex( xs12 sm7 md5 lg4 )
+            select-community(:showbtn="false", :index="false")
+            v-btn(color="success" @click="step = 2" block) Continue        
 
       v-stepper-content(step="2")
-        v-form(v-model="value" ref="form" lazy-validation)
-          v-text-field(
-            v-model="form.email"  
-            :rules="emailRules"
-            label="Correo electronico"
-            placeholder="e-mail"
-            type="email"
-            name="email"
-            required
-          )
-          v-text-field(
-            v-model="form.username"
-            :rules="userRules"
-            :counter="15"
-            label="Nombre de usuario"
-            placeholder="username"
-            name="username"
-            required
-          )
-          v-text-field(
-            v-model="form.password"
-            label="Contraseña"
-            placeholder="insert password"
-            name="password"
-            type="password"
-          )
-          v-checkbox(
-            v-model="checkbox"
-            :rules="[v => !!v || 'You must agree to continue!']"
-            label="Acepto los Terminos y Condiciones"
-            required
-          )
- 
-        v-btn(:disabled="!value" color="success" block @click="validate") Continue        
-        v-btn(color="transparent" block @click="authGoogle") con Google
-        v-btn(color="info" block @click="authFacebook") con Facebook
-        v-btn(flat) Cancel
+        v-alert(value="true" type="warning") Esta app esta en modo experimental. Si crea un usuario nuevo es bajo su propio riesgo.
+        v-alert(value="true" type="info") Estamos trabajando para usted.
+        v-layout( justify-center row wrap)
+          v-flex( xs12 sm7 md5 lg4 class="my-3")
+            form-new-user(@nextStep="step = 3")
+          v-flex(xs5 class="mr-2")
+            v-btn(color="white" block @click="authGoogle") con Google
+            v-btn(color="info" block @click="authFacebook") con Facebook
 
       v-stepper-content(step="3")
-        
-
-        v-btn(color="primary") Continue
-        
-        v-btn(flat) Cancel
+        v-alert(type="success" value="signupWithEmail" class="mb-5") Hemos enviado un correo de confirmación a tu casilla de email.
+        v-btn(nuxt to="/" color="primary" block) Continue
     
 </template>
 
 <script>
   import selectCommunity from '~/components/forms/selectCommunity'
   import userService from '~/plugins/user'
+  import formNewUser from '~/components/forms/newUser'
 
   export default {
     name: 'signup',
-    components: { selectCommunity },
+    components: { selectCommunity, formNewUser },
     data () {
       return {
         errors: '',
-        value: true,
-        checkbox: false,
         step: 1,
-        form: {
-          email: '',
-          username: '',
-          password: ''
-        },
-        userRules: [
-          v => !!v || 'User is required',
-          v => /^[0-9a-zA-Z]+$/.test(v) || 'User should be aphanumeric',
-          v => v.length <= 15 || 'User must be less than 15 characters',
-          v => v.length >= 3 || 'User must be more than 3 characters'
-        ],
-        emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /.+@.+/.test(v) || 'E-mail must be valid'
-        ]
+        signupWithEmail: true
       }
     },
     computed: {
@@ -106,23 +61,19 @@
       }
     },
     methods: {
-      validate () {
-        console.log('Formulario enviado')
-        if (this.$refs.form.validate()) {
-          console.log('Formulario valido')
-          userService.createWithEmail(this.form.email, this.form.password, this.form.username)
-          this.step++
-        } else {
-          console.log('Formulario INVALIDO!')
-        }
-      },
       authGoogle () {
         userService.authWithGoogle()
-          .then(() => this.step++)
+          .then(() => {
+            this.signupWithEmail = false
+            this.step++
+          })
       },
       authFacebook () {
         userService.authWithFacebook()
-          .then(() => this.step++)
+          .then(() => {
+            this.signupWithEmail = false
+            this.step++
+          })
       }
     }
   }
