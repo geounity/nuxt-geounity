@@ -39,6 +39,7 @@ Vue.use(Vuetify, {
     'community': 'fas fa-users',
     'debate': 'far fa-dot-circle',
     'facebook': 'fab fa-facebook',
+    'google': 'fab fa-google',
     'instagram': 'fab fa-instagram',
     'github': 'fab fa-github',
     'share': 'fas fa-share-alt'

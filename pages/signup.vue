@@ -1,5 +1,6 @@
 <template lang="pug">
   v-stepper(v-model="step")
+    v-alert(value="true" type="warning") Esta app esta en modo experimental. Si crea un usuario nuevo es bajo su propio riesgo.
     v-stepper-header
       v-stepper-step(:complete="step > 1" step="1" editable) Registra tu usuario
 
@@ -19,15 +20,19 @@
             v-btn(color="success" @click="step = 2" block) Continue        
 
       v-stepper-content(step="2")
-        v-alert(value="true" type="warning") Esta app esta en modo experimental. Si crea un usuario nuevo es bajo su propio riesgo.
-        v-alert(value="true" type="info") Estamos trabajando para usted.
-        v-layout( justify-center row wrap)
-          v-flex( xs12 sm7 md5 lg4 class="my-3")
+        v-layout( justify-center column row wrap)
+          v-flex(xs7 class="mr-2")
+            h3.subheading Registrate con:
+            v-btn(color="white" block @click="authGoogle")
+              v-icon(class="mr-3") $vuetify.icons.google
+              span Google
+            v-btn(color="info" block @click="authFacebook")
+              v-icon(class="mr-3") $vuetify.icons.facebook
+              span Facebook
+          v-flex(class="text-xs-center")
+            span ------------------------------ o ------------------------------
+          v-flex( xs11 sm6 md4 lg3 class="my-3")
             form-new-user(@nextStep="step = 3")
-          v-flex(xs5 class="mr-2")
-            v-btn(color="white" block @click="authGoogle") con Google
-            v-btn(color="info" block @click="authFacebook") con Facebook
-
       v-stepper-content(step="3")
         v-alert(type="success" value="signupWithEmail" class="mb-5") Hemos enviado un correo de confirmación a tu casilla de email.
         v-btn(nuxt to="/" color="primary" block) Continue
@@ -50,11 +55,8 @@
       }
     },
     computed: {
-      continents () {
-        return this.$store.state.continents
-      },
-      countries () {
-        return this.$store.state.countries
+      geocommunity () {
+        return this.$store.state.geocommunity
       },
       loading () {
         return this.$store.state.loading
@@ -74,6 +76,11 @@
             this.signupWithEmail = false
             this.step++
           })
+      }
+    },
+    beforeMount () {
+      if (this.geocommunity.length > 2) {
+        this.step++
       }
     }
   }

@@ -1,43 +1,45 @@
 <template lang="pug">
-  v-form
-    v-layout(column justify-center align-center)
-      v-flex(xs12).full-width.text-xs-center
-        h2.caption NIVEL 1
-        h1.title Comunidad Global
-      v-flex(xs12 sm6).full-width
-        h2.caption.text-xs-center NIVEL 2
-        div(v-if='index')          
-          #map-continents
-            ul.continents
-              li.c1: a(href='#Africa' rel="nofollow") Africa
-              li.c2: a(href='#Asia' rel="nofollow") Asia
-              li.c3: a(href='#Oceania' rel="nofollow") Oceania
-              li.c4: a(href='#Europe' rel="nofollow") Europe
-              li.c5: a(href='#Americas' rel="nofollow") North America
-              li.c6: a(href='#Americas' rel="nofollow") South America
-        v-select(
-          v-else
-          :items='continents'
-          label='Continent'
-          v-model='selectedContinent'
-          full-width
-        )
-      v-flex(xs12 sm6).full-width.text-xs-center
-        h2.caption NIVEL 3
-        v-select(
-          :items='countries'
-          label='Country'
-          v-model='selectedCountry'
-          :disabled='disabled'
-          :loading='loading'
-          full-width
-        )
-        
-      v-flex(xs12 sm6)
-        p #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
-      v-flex(xs12 sm6 d-flex v-if='showbtn')
-        v-btn( nuxt to='/signup' color='success')
-          strong Unete
+  v-form    
+    v-container
+      v-layout(column justify-center align-center)
+        v-flex(xs12).full-width.text-xs-center
+          h2.caption NIVEL 1
+          h1.title Comunidad Global
+        v-flex(xs12 sm6).full-width
+          h2.caption.text-xs-center NIVEL 2
+          div(v-if='index')
+            p(class="text-xs-center") Toca sobre un continente
+            #map-continents
+              ul.continents
+                li.c1: a(href='#Africa' rel="nofollow") Africa
+                li.c2: a(href='#Asia' rel="nofollow") Asia
+                li.c3: a(href='#Oceania' rel="nofollow") Oceania
+                li.c4: a(href='#Europe' rel="nofollow") Europe
+                li.c5: a(href='#Americas' rel="nofollow") North America
+                li.c6: a(href='#Americas' rel="nofollow") South America
+          v-select(
+            v-else
+            :items='continents'
+            label='Continent'
+            v-model='selectedContinent'
+            full-width
+          )
+        v-flex(xs12 sm6).full-width.text-xs-center
+          h2.caption NIVEL 3
+          v-select(
+            :items='countries'
+            label='Country'
+            v-model='selectedCountry'
+            :disabled='disabled'
+            :loading='loading'
+            full-width
+          )
+          
+        v-flex(xs12 sm6)
+          p #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
+        v-flex(v-if='showbtn' xs12 sm12 md12).full-width
+          v-btn( nuxt to='/signup' color='success' block)
+            strong Unete
 </template>
 <script>
 import communityService from '~/plugins/community'
@@ -52,7 +54,7 @@ export default {
     return {
       loading: false,
       disabled: true,
-      continents: ['Asia', 'Africa', 'Americas', 'Europe', 'Oceania', 'Polos'],
+      continents: ['Asia', 'Africa', 'Europe', 'North America', 'South America', 'Oceania', 'Polos'],
       selectedContinent: '',
       countries: [],
       selectedCountry: ''
@@ -113,15 +115,16 @@ export default {
 </script>
 
 <style scoped>
-.continents{
-  border: 2px solid red;
-}
 a{
   color: transparent;
   text-decoration: none;
 }
 li{
   list-style: none;
+}
+p{
+  margin: 0;
+  padding: 0;
 }
 .caption{
   background-color: #209cee;

@@ -9,6 +9,10 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  },
   head: {
     title: 'Geounity',
     meta: [
@@ -20,12 +24,13 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
-      { rel: 'stylesheet', type: 'text/css', href: 'cssmap-continents/cssmap-continents.css', media: 'screen' }
+      { rel: 'stylesheet', type: 'text/css', href: 'cssmap-continents/cssmap-continents.css', media: 'screen' },
+      { rel: 'stylesheet', type: 'text/javascript', href: 'https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css' }
     ],
     script: [
+      { type: 'text/javascript', src: 'https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.js' },
       { type: 'text/javascript', src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js', body: true },
       { type: 'text/javascript', src: 'https://cssmapsplugin.com/5/jquery.cssmap.min.js', body: true }
-
     ]
   },
   plugins: ['~/plugins/vuetify.js', '~/plugins/firebase.js'],
