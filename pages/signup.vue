@@ -21,32 +21,24 @@
 
       v-stepper-content(step="2")
         v-layout( justify-center column row wrap)
-          v-flex(xs7 class="mr-2")
-            h3.subheading Registrate con:
-            v-btn(color="white" block @click="authGoogle")
-              v-icon(class="mr-3") $vuetify.icons.google
-              span Google
-            v-btn(color="info" block @click="authFacebook")
-              v-icon(class="mr-3") $vuetify.icons.facebook
-              span Facebook
+          v-flex( xs11 sm6 md4 lg3 class="my-2")
+            form-new-user(@nextStep="step = 3")
           v-flex(class="text-xs-center")
             span ------------------------------ o ------------------------------
-          v-flex( xs11 sm6 md4 lg3 class="my-3")
-            form-new-user(@nextStep="step = 3")
+          firebaseui
       v-stepper-content(step="3")
         v-alert(type="success" value="signupWithEmail" class="mb-5") Hemos enviado un correo de confirmación a tu casilla de email.
         v-btn(nuxt to="/" color="primary" block) Continue
     
 </template>
-
 <script>
   import selectCommunity from '~/components/forms/selectCommunity'
-  import userService from '~/plugins/user'
-  import formNewUser from '~/components/forms/newUser'
+  import formNewUser from '~/components/forms/signup'
+  import firebaseui from '~/components/firebaseui'
 
   export default {
     name: 'signup',
-    components: { selectCommunity, formNewUser },
+    components: { selectCommunity, formNewUser, firebaseui },
     data () {
       return {
         errors: '',
@@ -60,22 +52,6 @@
       },
       loading () {
         return this.$store.state.loading
-      }
-    },
-    methods: {
-      authGoogle () {
-        userService.authWithGoogle()
-          .then(() => {
-            this.signupWithEmail = false
-            this.step++
-          })
-      },
-      authFacebook () {
-        userService.authWithFacebook()
-          .then(() => {
-            this.signupWithEmail = false
-            this.step++
-          })
       }
     },
     beforeMount () {

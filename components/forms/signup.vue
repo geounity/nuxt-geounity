@@ -7,6 +7,7 @@
       placeholder="e-mail"
       type="email"
       name="email"
+      box
       required
     )
     v-text-field(
@@ -16,6 +17,7 @@
       label="Nombre de usuario"
       placeholder="username"
       name="username"
+      box
       required
     )
     v-text-field(
@@ -25,6 +27,8 @@
       placeholder="insert password"
       name="password"
       type="password"
+      box
+      required
     )
     v-checkbox(
       v-model="checkbox"
@@ -32,11 +36,12 @@
       label="Acepto los Terminos y Condiciones"
       required
     )
-    v-btn(:disabled="!value" color="success" block @click="validate") Continue
+    v-btn(:disabled="!value" color="success" block @click="validate" @keyup.enter="validate") Continue
 </template>
 
 <script>
-import userService from '~/plugins/user'
+// import * as firebaseui from 'firebaseui'
+import userService from '~/services/user'
 export default {
   data () {
     return {

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import firebase from '~/plugins/firebase'
   import guToolbar from '~/components/layout/Toolbar.vue'
   import guBottomNav from '~/components/layout/BottomNav.vue'
   import guBreadcrumbs from '~/components/Breadcrumbs.vue'
@@ -26,12 +27,29 @@
     components: { guBottomNav, guToolbar, guBreadcrumbs, guFooter },
     data () {
       return {
-        logged: false,
         alert: false,
         miniVariant: false,
         right: true,
         rightDrawer: false
       }
+    },
+    computed: {
+      logged () {
+        return this.$store.state.user.logged
+      }
+    },
+    asyncData ({ store }) {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log('Usuario logeado')
+          console.log('-------------------')
+          console.log(user)
+          store.commit('signIn', user)
+        } else {
+          console.log('Usuario NO logeado')
+          store.commit('signOut')
+        }
+      })
     }
   }
 </script>

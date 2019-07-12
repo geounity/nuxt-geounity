@@ -1,11 +1,13 @@
 export const state = () => ({
   loading: false,
   error: false,
-  authId: '3u8932748973298',
+  authId: null,
   user: {
+    logged: false,
     username: null,
     email: null,
-    logged: false
+    verified: null,
+    photoURL: ''
   },
   geocommunity: [
     {
@@ -21,11 +23,17 @@ export const getters = () => ({})
 export const actions = () => ({})
 
 export const mutations = {
+  setUser (state, payload = {}) {
+    state.user = payload
+  },
   updateCommunity (state, payload = {}) {
     state.geocommunity[payload.level] = { name: payload.name }
   },
-  signIn (state) {
+  signIn (state, payload) {
     state.user.logged = true
+    state.user.username = payload.displayName
+    state.user.email = payload.email
+    state.user.photoURL = payload.photoURL
   },
   signOut (state) {
     state.user.logged = false

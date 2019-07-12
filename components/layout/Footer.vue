@@ -20,7 +20,7 @@
       </v-card-text>
 
       <v-card-text class="white--text pt-0">
-        Geounity app es un sistema que sirve para unir a las personas y comunidades del mundo. Nosotros hacemos estudios de comunidades. Moderamos debates entre diferentes puntos de vista. Llegamos a acuerdos y reconocemos los conflictos internos y externos. Y organizamos objetivos en común desde una comundiad.
+        Geounity app es una sistema de moderación y estudio para comunidades o empresas. Creamos acuerdos e identificamos concflictos entre los diferentes puntos de vista. Y organizamos objetivos en común para una comundiad en específico.
       </v-card-text>
 
       <v-divider></v-divider>

@@ -3,6 +3,7 @@
     :active.sync="bottomNav"
     :value="true"
     color="#fff"
+    style="border-top:1px solid grey"
     fixed
     app
   )
@@ -12,6 +13,7 @@
       value="home"
       nuxt
       to='/'
+      class="fix-minwidth"
     )
       span Home
       v-icon home
@@ -21,6 +23,7 @@
       value="communities"
       nuxt
       to='/communities'
+      class="fix-minwidth"
     )
       span Communities
       v-icon $vuetify.icons.community
@@ -30,6 +33,7 @@
       value="statics"
       nuxt
       to='/statics'
+      class="fix-minwidth"
     )
       span Statics
       v-icon $vuetify.icons.chart
@@ -39,6 +43,7 @@
       value="debates"
       nuxt
       to='/debates'
+      class="fix-minwidth"
     )
       span Debates
       v-icon $vuetify.icons.debate
@@ -48,6 +53,7 @@
       value="aims"
       nuxt
       to='/aims'
+      class="fix-minwidth"
     )
       span Aims
       v-icon $vuetify.icons.aim
@@ -65,3 +71,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.fix-minwidth{
+  min-width: 50px !important;
+}
+</style>

@@ -1,9 +1,9 @@
-import fb from '~/plugins/firebase'
+import firebase from '~/plugins/firebase'
 
 const userService = {}
 
 userService.createWithEmail = (email, password, username) => {
-  fb.auth().createUserWithEmailAndPassword(email, password)
+  return firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(res => {
       res.user.updateProfile({
         displayName: username
@@ -14,23 +14,36 @@ userService.createWithEmail = (email, password, username) => {
       res.user.sendEmailVerification(conf).catch(e => {
         console.error(e)
       })
-      fb.auth().signOut()
+      firebase.auth().signOut()
     })
     .catch(e => {
       console.error(e)
     })
 }
-userService.signInWithEmail = (email, password) => {
-  return fb.auth().signInWithEmailAndPassword(email, password)
-    .catch(function (error) {
-      var errorCode = error.code
-      var errorMessage = error.message
-      console.error(errorCode, errorMessage)
+userService.updatePassword = (user, newPassword) => {
+  user.updatePassword(newPassword)
+    .then(() => {
+      console.log('Contraseña actualizada!')
+    })
+    .catch((error) => {
+      console.log('Error: ')
+      console.log(error)
+    })
+}
+userService.sendPasswordResetEmail = (emailAddress) => {
+  return firebase.auth().sendPasswordResetEmail(emailAddress)
+    .then(() => {
+      console.log('Se ha enviado un email para recuperar la contraseña')
+    })
+    .catch((error) => {
+      console.log('Error: ')
+      console.log(error)
     })
 }
 userService.authWithGoogle = () => {
-  const provider = new fb.auth.GoogleAuthProvider()
-  return fb.auth().signInWithPopup(provider)
+  const provider = new firebase.auth.GoogleAuthProvider()
+  // El metodo de redirect se prefiere en los dispositivos moviles
+  return firebase.auth().signInWithPopup(provider)
     .then((res) => {
       // var token = res.credential.accessToken
       // var user = res.user
@@ -49,8 +62,8 @@ userService.authWithGoogle = () => {
     })
 }
 userService.authWithFacebook = () => {
-  const provider = new fb.auth.FacebookAuthProvider()
-  fb.auth().signInWithPopup(provider)
+  const provider = new firebase.auth.FacebookAuthProvider()
+  firebase.auth().signInWithPopup(provider)
     .then((res) => {
       console.log('RESPUESTA: ', res)
       return true
@@ -67,8 +80,8 @@ userService.authWithFacebook = () => {
       return false
     })
 }
-userService.isAuth = () => {
-  return fb.auth().currentUser
+userService.signOut = () => {
+  return firebase.auth().signOut()
 }
 
 export default userService
