@@ -9,8 +9,9 @@
       
       <nuxt />
       
-      <gu-footer></gu-footer>
     </v-content>
+    
+    <gu-footer></gu-footer>
 
     <gu-bottom-nav class="hidden-md-and-up"></gu-bottom-nav>
 
@@ -44,10 +45,7 @@
           console.log('Usuario logeado')
           console.log('-------------------')
           console.log(user)
-          store.commit('signIn', user)
-        } else {
-          console.log('Usuario NO logeado')
-          store.commit('signOut')
+          store.dispatch('FETCH_AUTH_USER')
         }
       })
     }

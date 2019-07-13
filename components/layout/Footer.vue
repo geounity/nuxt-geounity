@@ -1,35 +1,22 @@
-<template>
-  <v-footer
-    dark
-    height="auto"
-  >
-    <v-card
-      flat
-      tile
-      class="indigo lighten-1 white--text text-xs-center"
-    >
-      <v-card-text>
-        <v-btn
-          v-for="icon in icons"
-          :key="icon"
-          class="mx-3 white--text"
-          icon
-        >
-          <v-icon size="24px">{{ icon }}</v-icon>
-        </v-btn>
-      </v-card-text>
+<template lang="pug">
+  v-footer(dark height="auto" class="indigo lighten-1")
+    v-layout(justify-center)
+      v-card(flat tile class="indigo lighten-1 white--text text-xs-center")
+        v-card-text
+          v-btn(
+            v-for="icon in icons"
+            :key="icon"
+            class="mx-3 white--text"
+            icon
+          )
+            v-icon(size="24px") {{ icon }}
+        v-card-text(class="white--text pt-0")
+          p Geounity app es una sistema de moderación y estudio para comunidades o empresas. Creamos acuerdos e identificamos concflictos entre los diferentes puntos de vista. Y organizamos objetivos en común para una comundiad en específico.
 
-      <v-card-text class="white--text pt-0">
-        Geounity app es una sistema de moderación y estudio para comunidades o empresas. Creamos acuerdos e identificamos concflictos entre los diferentes puntos de vista. Y organizamos objetivos en común para una comundiad en específico.
-      </v-card-text>
+        v-divider
 
-      <v-divider></v-divider>
-
-      <v-card-text class="white--text">
-        &copy;2019 — <strong>Geounity</strong>
-      </v-card-text>
-    </v-card>
-  </v-footer>
+        v-card-text(class="white--text")
+          span &copy;2019: strong Geounity
 </template>
 
 <script>

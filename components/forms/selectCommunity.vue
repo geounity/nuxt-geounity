@@ -3,7 +3,7 @@
     v-layout(column justify-center align-center)
       v-flex(xs12).full-width.text-xs-center
         h2.caption NIVEL 1
-        h1.title Comunidad Global
+        h1.title.my-2 Comunidad Global
       v-flex(xs12 sm6).full-width
         h2.caption.text-xs-center NIVEL 2
         div(v-if='index')
@@ -21,7 +21,7 @@
           :items='continents'
           label='Continent'
           v-model='selectedContinent'
-          box
+          solo
         )
       v-flex(xs12 sm6).text-xs-center
         h2.caption NIVEL 3
@@ -32,13 +32,13 @@
           v-model='selectedCountry'
           :disabled='disabled'
           :loading='loading'
-          box
+          solo
         )
-      v-flex(v-if='showbtn' xs12 sm12 md12).full-width
-        v-btn( nuxt to='/signup' color='success' block)
+      p(class="text-xs-center") #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
+      v-flex(v-if='showbtn' xs12)
+        v-btn( nuxt to='/signup' color='success' class="px-5")
           strong Unete
       v-flex(xs12 sm6)
-        p(class="text-xs-center") #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
 </template>
 <script>
 import communityService from '~/services/community'
@@ -74,7 +74,7 @@ export default {
     let self = this
     window.$(document).ready(function () {
       window.$('#map-continents').CSSMap({
-        'size': 850,
+        'size': 650,
         onClick: function (listItem) {
           self.selectedContinent = listItem[0].textContent
         }

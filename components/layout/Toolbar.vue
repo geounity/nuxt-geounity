@@ -33,13 +33,7 @@ export default {
   },
   computed: {
     logged () {
-      let logged = this.$store.state.user.logged
-      if (logged) {
-        this.textSesion = 'Cerrar sesión'
-      } else {
-        this.textSesion = 'Login'
-      }
-      return logged
+      return this.$store.state.user.logged
     }
   },
   beforeMount () {

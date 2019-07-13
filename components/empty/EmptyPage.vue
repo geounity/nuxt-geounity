@@ -1,9 +1,8 @@
 <template lang="pug">
   .empty_state
-    i.ion-sad-outline
     h3 No hay {{page}} en esta comunidad
     p Para crear una {{page}} registrate
-    v-btn(color="success") Registrarte
+    v-btn( nuxt to="/" color="success") Registrarte
 </template>
 
 <script>
@@ -25,17 +24,11 @@ export default {
 
   .empty_state{
     position: relative;
-    top: -20px;
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
-    i{
-      margin: auto;
-      margin-bottom: 0px;
-      font-size: 90px;
-      color: #ccc;
-    }
+    justify-content: center;
+    align-items: center;
     h3{
       margin: 8px 0px;
       text-align: center;
@@ -53,7 +46,6 @@ export default {
       border-radius: 3px;
       padding: 8px 8px;
       margin: 20px auto auto auto;
-      width: 50%;
       max-width: 200px;
       background: #348AC7;
       color: white;

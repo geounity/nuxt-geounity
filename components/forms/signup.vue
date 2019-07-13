@@ -7,7 +7,7 @@
       placeholder="e-mail"
       type="email"
       name="email"
-      box
+      solo
       required
     )
     v-text-field(
@@ -17,7 +17,7 @@
       label="Nombre de usuario"
       placeholder="username"
       name="username"
-      box
+      solo
       required
     )
     v-text-field(
@@ -27,7 +27,7 @@
       placeholder="insert password"
       name="password"
       type="password"
-      box
+      solo
       required
     )
     v-checkbox(
