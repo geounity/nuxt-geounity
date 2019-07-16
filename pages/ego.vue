@@ -10,9 +10,9 @@
 
 <script>
 
-import firebase from '~/plugins/firebase'
+import { auth } from '~/plugins/firebase'
 
-var user = firebase.auth().currentUser
+var user = auth.currentUser
 var name, email, photoUrl, uid, emailVerified
 
 if (user != null) {

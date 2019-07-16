@@ -1,8 +1,18 @@
 <template lang='pug'>
   main
-    div(v-if="!logged")
-      h3.heading.text-xs-center.block ¿A cuál comunidad perteneces?
-      select-community
+    v-layout(v-if="!logged" wrap)
+      v-flex(xs12).full-width.text-xs-center
+        h1.display-1.mt-2 Somos Comunidad Global
+      v-flex(xs12 md6)
+        select-community
+      v-flex(xs12 md6)
+        h1 Llamado a la Consciencia planetaria
+        h3 Cantidad de habitantes: xxx
+        ul
+          li Polls
+          li Debates
+          li Aims
+          li Points of view
     div(v-else)
       h1(class="text-xs-center my-5") Bienvenido!
       v-card
@@ -47,10 +57,6 @@ export default {
 </script>
 
 <style scoped>
-.heading{
-  background-color: #444;
-  color: #fff;
-  padding: 1rem;
-}
+
 </style>
 

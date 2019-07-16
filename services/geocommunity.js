@@ -2,10 +2,6 @@ import apiGeounity from './api'
 
 const communityService = {}
 
-communityService.getAllByContinent = (continent) => {
-  return apiGeounity.get(`/${continent}/countries`).then(res => res.data)
-}
-
 communityService.getAllByCountry = (country) => {
   return [
     {

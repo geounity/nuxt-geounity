@@ -4,16 +4,17 @@
       v-flex(xs9 sm6 lg4 xl3)
         form-login
       v-flex(xs12 sm6 lg4 xl3)
-        firebaseui
+        no-ssr
+          firebase-ui
 </template>
 
 <script>
-import firebaseui from '~/components/firebaseui'
-import formLogin from '~/components/forms/signin'
+import FirebaseUi from '~/components/firebaseui'
+import FormLogin from '~/components/forms/signin'
 
 export default {
   name: 'login',
-  components: { firebaseui, formLogin },
+  components: { FirebaseUi, FormLogin },
   data () {
     return {
     }

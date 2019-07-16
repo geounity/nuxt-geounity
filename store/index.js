@@ -1,67 +1,61 @@
-import firebase from '~/plugins/firebase'
+import { auth } from '~/plugins/firebase'
 
 export const state = () => ({
   loading: false,
   error: false,
   authId: null,
   user: {
-    logged: false,
     username: null,
     email: null,
     verified: null,
-    photoURL: ''
+    photoURL: '',
+    communities: [1] // Haciendo referencia a Global
   },
   geocommunity: [
     {
-      name: 'Global'
+      name: 'Global',
+      statics: ['ejemplo', 'otroejemplo'],
+      debates: [],
+      aims: []
     }
-  ],
-  statics: [],
-  debates: [],
-  aims: []
+  ]
+  // , otro tipo de comunidades como las empresas, organizaciones, ideologías
 })
 
 export const getters = () => ({
-  authUser: state => state.users[state.authId]
+  statics: state => state.geocommunity[state.geocommunity.length - 1].statics
 })
+
 export const actions = () => ({
-  FETCH_USER: ({ state, commit }, { id }) => new Promise((resolve) => {
-    firebase.database().ref('users').child(id).once('value', (snapshot) => {
-      commit('SET_ITEM', { resource: 'users', id: snapshot.key, item: snapshot.val() });
-      resolve(state.users[id]);
-    })
-  }),
-  FETCH_AUTH_USER: ({ dispatch, commit }) => {
-    const userId = firebase.auth().currentUser.uid;
-    return dispatch('FETCH_USER', { id: userId })
-      .then(() => {
-        commit('SET_AUTHID', userId);
-      })
+  FETCH_AUTH_USER: ({ commit }) => {
+    const userId = auth.currentUser.uid
+    return commit('SET_AUTHID', userId)
   }
 })
 
 export const mutations = {
-  SET_ITEM(state, { item, id, resource }) {
-    const newItem = item;
-    newItem['.key'] = id;
-    // Vue.set(state[resource], id, newItem);
+  SET_AUTHID (state, id) {
+    state.authId = id
   },
-  SET_AUTHID(state, id) {
-    state.authId = id;
-  },
-  setUser (state, payload = {}) {
+  SET_USER (state, payload = {}) {
     state.user = payload
   },
-  updateCommunity (state, payload = {}) {
-    state.geocommunity[payload.level] = { name: payload.name }
-  },
-  signIn (state, payload) {
-    state.user.logged = true
+  SIGN_IN (state, payload) {
     state.user.username = payload.displayName
     state.user.email = payload.email
     state.user.photoURL = payload.photoURL
   },
-  signOut (state) {
-    state.user.logged = false
+  SIGN_OUT (state) {
+    auth.signOut()
+      .then(() => {
+        state.authId = null
+      })
+  },
+  UPDATE_GEOCOMMUNITY (state, { name, level }) {
+    console.log('PRUEBA')
+    console.log(name)
+    console.log(level)
+    state.geocommunity[level - 1] = {}
+    state.geocommunity[level - 1].name = name
   }
 }

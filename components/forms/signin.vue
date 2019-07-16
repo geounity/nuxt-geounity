@@ -2,7 +2,7 @@
   v-form(v-model="value" ref="form" lazy-validation class="my-1")
     h2(heading class="text-xs-center") Iniciar sesión
     v-text-field(
-      v-model="form.email"  
+      v-model="formLogin.email"  
       :rules="emailRules"
       label="Correo electronico"
       type="email"
@@ -11,7 +11,7 @@
       required
     )
     v-text-field(
-      v-model="form.password"
+      v-model="formLogin.password"
       :rules="passRules"
       label="Contraseña"
       placeholder="insert password"
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import { auth } from '~/plugins/firebase'
 export default {
   data () {
     return {
@@ -48,7 +48,7 @@ export default {
   methods: {
     validate () {
       if (this.$refs.form.validate()) {
-        firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+        auth.signInWithEmailAndPassword(this.form.email, this.form.password)
           .then(res => {
             this.$store.commit('signIn', res.user)
             console.log('RESPUESTA')

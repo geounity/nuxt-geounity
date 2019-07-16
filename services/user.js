@@ -1,9 +1,9 @@
-import firebase from '~/plugins/firebase'
+import { auth } from '~/plugins/firebase'
 
 const userService = {}
 
 userService.createWithEmail = (email, password, username) => {
-  return firebase.auth().createUserWithEmailAndPassword(email, password)
+  return auth.createUserWithEmailAndPassword(email, password)
     .then(res => {
       res.user.updateProfile({
         displayName: username
@@ -14,7 +14,7 @@ userService.createWithEmail = (email, password, username) => {
       res.user.sendEmailVerification(conf).catch(e => {
         console.error(e)
       })
-      firebase.auth().signOut()
+      auth.signOut()
     })
     .catch(e => {
       console.error(e)
@@ -31,7 +31,7 @@ userService.updatePassword = (user, newPassword) => {
     })
 }
 userService.sendPasswordResetEmail = (emailAddress) => {
-  return firebase.auth().sendPasswordResetEmail(emailAddress)
+  return auth.sendPasswordResetEmail(emailAddress)
     .then(() => {
       console.log('Se ha enviado un email para recuperar la contraseña')
     })
@@ -40,48 +40,48 @@ userService.sendPasswordResetEmail = (emailAddress) => {
       console.log(error)
     })
 }
-userService.authWithGoogle = () => {
-  const provider = new firebase.auth.GoogleAuthProvider()
-  // El metodo de redirect se prefiere en los dispositivos moviles
-  return firebase.auth().signInWithPopup(provider)
-    .then((res) => {
-      // var token = res.credential.accessToken
-      // var user = res.user
-      console.log('Respuesta: ')
-      console.log(res)
-    })
-    .catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code
-      var errorMessage = error.messagnupge
-      // The email of the user's account used.
-      var email = error.email
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential
-      console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
-    })
-}
-userService.authWithFacebook = () => {
-  const provider = new firebase.auth.FacebookAuthProvider()
-  firebase.auth().signInWithPopup(provider)
-    .then((res) => {
-      console.log('RESPUESTA: ', res)
-      return true
-    })
-    .catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code
-      var errorMessage = error.message
-      // The email of the user's account used.
-      var email = error.email
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential
-      console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
-      return false
-    })
-}
+// userService.authWithGoogle = () => {
+//   const provider = new firebase.auth.GoogleAuthProvider()
+//   // El metodo de redirect se prefiere en los dispositivos moviles
+//   return firebase.auth().signInWithPopup(provider)
+//     .then((res) => {
+//       // var token = res.credential.accessToken
+//       // var user = res.user
+//       console.log('Respuesta: ')
+//       console.log(res)
+//     })
+//     .catch(function (error) {
+//       // Handle Errors here.
+//       var errorCode = error.code
+//       var errorMessage = error.messagnupge
+//       // The email of the user's account used.
+//       var email = error.email
+//       // The firebase.auth.AuthCredential type that was used.
+//       var credential = error.credential
+//       console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
+//     })
+// }
+// userService.authWithFacebook = () => {
+//   const provider = new firebase.auth.FacebookAuthProvider()
+//   firebase.auth().signInWithPopup(provider)
+//     .then((res) => {
+//       console.log('RESPUESTA: ', res)
+//       return true
+//     })
+//     .catch(function (error) {
+//       // Handle Errors here.
+//       var errorCode = error.code
+//       var errorMessage = error.message
+//       // The email of the user's account used.
+//       var email = error.email
+//       // The firebase.auth.AuthCredential type that was used.
+//       var credential = error.credential
+//       console.log(errorCode, '-', errorMessage, '-', email, '-', credential)
+//       return false
+//     })
+// }
 userService.signOut = () => {
-  return firebase.auth().signOut()
+  return auth.signOut()
 }
 
 export default userService

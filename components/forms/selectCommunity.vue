@@ -1,13 +1,8 @@
 <template lang="pug">
-  v-form    
+  v-form
     v-layout(column justify-center align-center)
-      v-flex(xs12).full-width.text-xs-center
-        h2.caption NIVEL 1
-        h1.title.my-2 Comunidad Global
       v-flex(xs12 sm6).full-width
-        h2.caption.text-xs-center NIVEL 2
         div(v-if='index')
-          p(class="text-xs-center") Toca sobre un continente
           #map-continents
             ul.continents
               li.c1: a(href='#Africa' rel="nofollow") Africa
@@ -16,6 +11,7 @@
               li.c4: a(href='#Europe' rel="nofollow") Europe
               li.c5: a(href='#Americas' rel="nofollow") Norte America
               li.c6: a(href='#Americas' rel="nofollow") Sur America
+          p(class="text-xs-center mb-2") Toca sobre un continente
         v-select(
           v-else
           :items='continents'
@@ -24,7 +20,7 @@
           solo
         )
       v-flex(xs12 sm6).text-xs-center
-        h2.caption NIVEL 3
+        h2.caption PAISES
         v-select(
           :items='countries'
           label='Paises'
@@ -41,7 +37,7 @@
       v-flex(xs12 sm6)
 </template>
 <script>
-import communityService from '~/services/community'
+import apiGeounity from '~/plugins/api'
 
 export default {
   name: 'selectCommunity',
@@ -64,11 +60,9 @@ export default {
     let l = this.geocommunity.length
     if (l > 1) {
       this.selectedContinent = this.geocommunity[1].name
-      console.log('Continente: ' + this.geocommunity[1].name)
     }
     if (l > 2) {
       this.selectedCountry = this.geocommunity[2].name
-      console.log('Pais: ' + this.geocommunity[2].name)
     }
     // CSSMap;
     let self = this
@@ -89,21 +83,20 @@ export default {
   },
   watch: {
     async selectedContinent (newVal) {
+      console.log('NEWVAL')
+      console.log(newVal)
       this.loading = !this.loading
-      if (newVal === 'Sur America') {
-        this.countries = ['Argentina', 'Bolivia', 'Brasil', 'Colombia', 'Chile', 'Ecuador', 'Guyana', 'Guyana francesa', 'Paraguay', 'Peru', 'Surinam', 'Venezuela', 'Uruguay']
-      } else if (newVal === 'Norte America') {
-        this.countries = ['Anguila', 'Antigua y Barbuda', 'Aruba', 'Bahamas', 'Barbados', 'Belize', 'Bermuda', 'Bonaire, Sint Eustatius and Saba', 'Estados Unidos', 'Canada', 'Islas caiman', 'Costa rica', 'Cuba', 'Dominicana', 'El Salvador', 'Honduras', 'Jamaica', 'Martinique', 'Panama', 'Puerto Rico', 'Trinidad y tobago']
-      } else {
-        this.countries = await communityService.getAllByContinent(newVal).then(res => res)
-      }
+      let result = await apiGeounity.get(`${newVal}/countries`)
+      this.countries = result.data.map((item) => item.name)
+      console.log('COUNTRIES')
+      console.log(this.countries)
       this.placeholder = `Paises de ${newVal}`
       this.loading = !this.loading
       this.disabled = false
-      this.$store.commit('updateCommunity', { name: newVal, level: 1 })
+      this.$store.commit('UPDATE_GEOCOMMUNITY', { name: newVal, level: 2 })
     },
     selectedCountry (newVal) {
-      this.$store.commit('updateCommunity', { name: newVal, level: 2 })
+      this.$store.commit('UPDATE_GEOCOMMUNITY', { name: newVal, level: 3 })
     }
   }
 }

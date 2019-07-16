@@ -16,7 +16,7 @@
         v-divider
 
         v-card-text(class="white--text")
-          span &copy;2019: strong Geounity
+          span &copy;2019 #[strong Geounity]
 </template>
 
 <script>

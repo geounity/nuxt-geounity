@@ -4,6 +4,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
+
 import GuStaticCard from '~/components/cards/StaticCard.vue'
 import EmptyPage from '~/components/empty/EmptyPage.vue'
 
@@ -13,6 +15,11 @@ export default {
   data () {
     return {
     }
+  },
+  computed: {
+    ...mapGetters([
+      'statics'
+    ])
   }
 }
 </script>

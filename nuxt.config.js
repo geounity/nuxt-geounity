@@ -24,8 +24,7 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
-      { rel: 'stylesheet', type: 'text/css', href: 'cssmap-continents/cssmap-continents.css', media: 'screen' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css' }
+      { rel: 'stylesheet', type: 'text/css', href: 'cssmap-continents/cssmap-continents.css', media: 'screen' }
     ],
     script: [
       { type: 'text/javascript', src: 'https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.js', body: true },

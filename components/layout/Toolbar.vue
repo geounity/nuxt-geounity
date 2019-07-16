@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar( color="#8e44ad" fixed dense dark app )
+  v-toolbar( color="#8e44ad" dense dark app )
     v-toolbar-title
       a( nuxt to="/" class="font-weight-black") {{title}}
     v-spacer
@@ -9,21 +9,24 @@
     v-toolbar-items
       v-btn( v-if="!logged" nuxt to="/login" small flat class="font-weight-black") Login
       v-btn( v-if="!logged" nuxt to="/signup" color="success" small class="font-weight-black") Registrate
-      v-btn( v-if="logged" nuxt to="/ego" small flat) Ego
-      v-btn( v-if="logged" small flat @click="signOut") close
+      v-menu( v-if="logged" left bottom )
+        template( v-slot:activator="{ on }")
+          v-btn( icon v-on="on" )
+            v-icon mdi-dots-vertical
+        v-list
+          v-list-item(@clicl="() => {}")
+            v-list-item-title( nuxt to="/ego" small flat) Ego
+            v-list-item-title( small flat @click="signOut") Cerrar sesión
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
 export default {
   name: 'toolbar',
   data () {
     return {
-      textSesion: 'Login',
       to: '/login',
       title: 'Geounity',
       items: [
-        { icon: 'home', title: 'Home', to: '/' },
         { icon: '$vuetify.icons.chart', title: 'Statics', to: '/statics' },
         { icon: '$vuetify.icons.debate', title: 'Debates', to: '/debates' },
         { icon: '$vuetify.icons.aim', title: 'Aims', to: '/aims' },
@@ -32,28 +35,24 @@ export default {
     }
   },
   computed: {
-    logged () {
-      return this.$store.state.user.logged
-    }
+    logged () { return this.$store.state.authId }
   },
   beforeMount () {
-    const user = firebase.auth().currentUser
-    if (user) {
+    if (this.logged) {
       let payload = {
         logged: true,
-        username: user.displayName,
-        email: user.email,
-        verified: user.emailVerified
+        username: 'seba',
+        email: 'sebastiancardoso92@gmail.com',
+        verified: true
       }
-      this.$store.commit('setUser', payload)
+      this.$store.commit('SET_USER', payload)
     } else {
-      this.$store.commit('signOut')
+      this.$store.commit('SIGN_OUT')
     }
   },
   methods: {
     signOut () {
-      firebase.auth().signOut()
-      this.$store.commit('signOut')
+      this.$store.commit('SIGN_OUT')
     }
   }
 }

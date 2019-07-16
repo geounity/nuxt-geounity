@@ -1,9 +1,9 @@
 <template lang="pug">
   v-layout(justify-center)
     v-flex(lg5)
+      v-alert(value="true" color="info" class="my-2" dismissible)
+        h3 Se uno de los pimeros usuarios
       v-stepper(v-model="step")
-        v-alert(value="true" color="info" dismissible)
-          h3 Se uno de los pimeros usuarios
         v-stepper-header
           v-stepper-step(:complete="step > 1" step="1" editable) Registra tu usuario
 
@@ -28,19 +28,19 @@
                 form-new-user(@nextStep="step = 3")
               v-flex(class="text-xs-center")
                 span ------------------------------ o ------------------------------
-              firebaseui
+              firebase-ui
           v-stepper-content(step="3")
-            v-alert(type="success" value="signupWithEmail" class="mb-5") Hemos enviado un correo de confirmación a tu casilla de email.
+            v-alert(type="success" value="signupWithE mail" class="mb-5") Hemos enviado un correo de confirmación a tu casilla de email.
             v-btn(nuxt to="/" color="primary" block) Continue    
 </template>
 <script>
   import selectCommunity from '~/components/forms/selectCommunity'
   import formNewUser from '~/components/forms/signup'
-  import firebaseui from '~/components/firebaseui'
+  import FirebaseUi from '~/components/firebaseui'
 
   export default {
     name: 'signup',
-    components: { selectCommunity, formNewUser, firebaseui },
+    components: { selectCommunity, formNewUser, FirebaseUi },
     data () {
       return {
         errors: '',
