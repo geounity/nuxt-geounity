@@ -14,12 +14,13 @@
           v-btn( icon v-on="on" )
             v-icon mdi-dots-vertical
         v-list
-          v-list-item(@clicl="() => {}")
+          v-list-item(@click="() => {}")
             v-list-item-title( nuxt to="/ego" small flat) Ego
             v-list-item-title( small flat @click="signOut") Cerrar sesión
 </template>
 
 <script>
+import { auth } from '~/plugins/firebase'
 export default {
   name: 'toolbar',
   data () {
@@ -37,22 +38,14 @@ export default {
   computed: {
     logged () { return this.$store.state.authId }
   },
-  beforeMount () {
-    if (this.logged) {
-      let payload = {
-        logged: true,
-        username: 'seba',
-        email: 'sebastiancardoso92@gmail.com',
-        verified: true
-      }
-      this.$store.commit('SET_USER', payload)
-    } else {
-      this.$store.commit('SIGN_OUT')
-    }
-  },
   methods: {
     signOut () {
-      this.$store.commit('SIGN_OUT')
+      auth.signOut().then(() => {
+        this.$store.commit('SIGN_OUT')
+      }).catch(e => {
+        console.log('No se puedo cerrar la secion. Error: ')
+        console.log(e)
+      })
     }
   }
 }

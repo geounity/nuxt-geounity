@@ -80,8 +80,4 @@ userService.sendPasswordResetEmail = (emailAddress) => {
 //       return false
 //     })
 // }
-userService.signOut = () => {
-  return auth.signOut()
-}
-
 export default userService

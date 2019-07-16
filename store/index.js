@@ -7,8 +7,12 @@ export const state = () => ({
   user: {
     username: null,
     email: null,
-    verified: null,
+    emailVerified: null,
     photoURL: '',
+    uid: '',
+    accessToken: '',
+    phoneNumber: '',
+    providerData: '',
     communities: [1] // Haciendo referencia a Global
   },
   geocommunity: [
@@ -26,12 +30,12 @@ export const getters = () => ({
   statics: state => state.geocommunity[state.geocommunity.length - 1].statics
 })
 
-export const actions = () => ({
-  FETCH_AUTH_USER: ({ commit }) => {
+export const actions = {
+  FETCH_AUTH_USER ({ commit }) {
     const userId = auth.currentUser.uid
     return commit('SET_AUTHID', userId)
   }
-})
+}
 
 export const mutations = {
   SET_AUTHID (state, id) {
@@ -46,10 +50,7 @@ export const mutations = {
     state.user.photoURL = payload.photoURL
   },
   SIGN_OUT (state) {
-    auth.signOut()
-      .then(() => {
-        state.authId = null
-      })
+    state.authId = null
   },
   UPDATE_GEOCOMMUNITY (state, { name, level }) {
     console.log('PRUEBA')

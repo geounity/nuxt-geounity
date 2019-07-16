@@ -58,7 +58,7 @@
     },
     beforeMount () {
       if (this.geocommunity.length > 2) {
-        this.step++
+        console.log('Ponermas opciones como para seleccionar provincias')
       }
     }
   }

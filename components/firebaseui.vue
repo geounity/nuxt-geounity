@@ -9,12 +9,14 @@
   
   var uiConfig = {
     signInSuccessUrl: '/',
+    signInFlow: 'popup',
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       authProviders.Google,
       authProviders.Facebook,
       authProviders.Twitter,
-      authProviders.Github
+      authProviders.Github,
+      authProviders.Email
     ],
     tosUrl: '/politics',
     privacyPolicyUrl: '/privacy-policy',

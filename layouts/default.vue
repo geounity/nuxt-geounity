@@ -19,16 +19,6 @@
   import guFooter from '~/components/layout/Footer'
   export default {
     components: { guBottomNav, guToolbar, guBreadcrumbs, guFooter },
-    asyncData ({ store }) {
-      let user = auth.currentUser
-      if (user) {
-        console.log('USER LOGEADO')
-        console.log(user)
-        store.dispatch('FETCH_AUTH_USER')
-      } else {
-        console.log('NO LOGIN')
-      }
-    },
     data () {
       return {
         alert: false
@@ -38,9 +28,36 @@
       logged () { return this.$store.state.authId }
     },
     beforeCreate () {
-      // if (this.$store.state.authId) {
-      //   this.$store.dispatch('FETCH_USER', { id: this.$store.state.authId })
-      // }
+      const self = this
+      auth.onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          console.log('USER LOGEADO')
+          console.log(user)
+          var username = user.displayName
+          var email = user.email
+          var emailVerified = user.emailVerified
+          var photoURL = user.photoURL
+          var uid = user.uid
+          var phoneNumber = user.phoneNumber
+          var providerData = user.providerData
+          user.getIdToken().then(function (accessToken) {
+            self.$store.dispatch('FETCH_AUTH_USER')
+            self.$store.commit('SET_USER', {
+              username,
+              email,
+              emailVerified,
+              photoURL,
+              uid,
+              accessToken,
+              phoneNumber,
+              providerData
+            })
+          })
+        } else {
+          console.log('NO LOGIN')
+        }
+      })
     }
   }
 </script>
