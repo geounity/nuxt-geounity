@@ -1,7 +1,7 @@
 <template lang="pug">
   v-form(v-model="value" ref="form" lazy-validation class="mb-5")
     v-text-field(
-      v-model="form.email"  
+      v-model="formRegister.email"  
       :rules="emailRules"
       label="Correo electronico"
       placeholder="e-mail"
@@ -11,7 +11,7 @@
       required
     )
     v-text-field(
-      v-model="form.username"
+      v-model="formRegister.username"
       :rules="userRules"
       :counter="15"
       label="Nombre de usuario"
@@ -21,7 +21,7 @@
       required
     )
     v-text-field(
-      v-model="form.password"
+      v-model="formRegister.password"
       :rules="passRules"
       label="Contraseña"
       placeholder="insert password"
@@ -29,6 +29,7 @@
       type="password"
       solo
       required
+      @keyup.enter="validate"
     )
     v-checkbox(
       v-model="checkbox"
@@ -36,18 +37,17 @@
       label="Acepto los Terminos y Condiciones"
       required
     )
-    v-btn(:disabled="!value" color="success" block @click="validate" @keyup.enter="validate") Continue
+    v-btn(:disabled="!value" color="success" block @click.prevent="validate") Continue
 </template>
 
 <script>
 // import * as firebaseui from 'firebaseui'
-import userService from '~/services/user'
 export default {
   data () {
     return {
       value: true,
       checkbox: false,
-      form: {
+      formRegister: {
         email: '',
         username: '',
         password: ''
@@ -72,8 +72,10 @@ export default {
   methods: {
     validate () {
       if (this.$refs.form.validate()) {
-        userService.createWithEmail(this.form.email, this.form.password, this.form.username)
-        this.$emit('nextStep')
+        this.$store.dispatch('CREATE_USER', this.formRegister)
+          .then(() => {
+            this.$emit('nextStep')
+          })
       } else {
         console.log('Formulario INVALIDO!')
       }

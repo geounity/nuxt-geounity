@@ -20,11 +20,10 @@
       solo
       required
     )
-    v-btn(:disabled="!value" color="success" block @click="validate" @keyup.enter="validate") Iniciar sesión
+    v-btn(:disabled="!value" color="success" block @click="loginHandlerSubmit" @keyup.enter="loginHandlerSubmit") Iniciar sesión
 </template>
 
 <script>
-import { auth } from '~/plugins/firebase'
 export default {
   data () {
     return {
@@ -46,11 +45,14 @@ export default {
     }
   },
   methods: {
-    validate () {
+    loginHandlerSubmit () {
       if (this.$refs.form.validate()) {
-        auth.signInWithEmailAndPassword(this.form.email, this.form.password)
+        this.$store.dispatch('SIGN_IN', {
+          email: this.formLogin.email,
+          password: this.formLogin.password
+        })
           .then(res => {
-            this.$store.commit('signIn', res.user)
+            this.$store.dispatch('FETCH_AUTH_USER')
             console.log('RESPUESTA')
             console.log(res)
           })

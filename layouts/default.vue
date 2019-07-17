@@ -3,7 +3,6 @@
     <gu-toolbar></gu-toolbar>
     <v-content>
       <v-alert :value="alert" type="warning">Version beta</v-alert>
-      <gu-breadcrumbs v-if="logged"></gu-breadcrumbs>
       <nuxt />
     </v-content>
     <gu-footer></gu-footer>
@@ -15,19 +14,16 @@
   import { auth } from '~/plugins/firebase'
   import guToolbar from '~/components/layout/Toolbar.vue'
   import guBottomNav from '~/components/layout/BottomNav.vue'
-  import guBreadcrumbs from '~/components/Breadcrumbs.vue'
-  import guFooter from '~/components/layout/Footer'
+  import guFooter from '~/components/layout/Footer.vue'
+  import Modal from '~/components/Modal.vue'
   export default {
-    components: { guBottomNav, guToolbar, guBreadcrumbs, guFooter },
+    components: { guBottomNav, guToolbar, guFooter },
     data () {
       return {
         alert: false
       }
     },
-    computed: {
-      logged () { return this.$store.state.authId }
-    },
-    beforeCreate () {
+    beforeMount () {
       const self = this
       auth.onAuthStateChanged(function (user) {
         if (user) {
@@ -38,9 +34,7 @@
           var email = user.email
           var emailVerified = user.emailVerified
           var photoURL = user.photoURL
-          var uid = user.uid
           var phoneNumber = user.phoneNumber
-          var providerData = user.providerData
           user.getIdToken().then(function (accessToken) {
             self.$store.dispatch('FETCH_AUTH_USER')
             self.$store.commit('SET_USER', {
@@ -48,10 +42,8 @@
               email,
               emailVerified,
               photoURL,
-              uid,
               accessToken,
-              phoneNumber,
-              providerData
+              phoneNumber
             })
           })
         } else {

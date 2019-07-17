@@ -1,7 +1,7 @@
 <template lang="pug">
   v-toolbar( color="#8e44ad" dense dark app )
     v-toolbar-title
-      a( nuxt to="/" class="font-weight-black") {{title}}
+      nuxt-link( to="/" exact class="font-weight-black") {{title}}
     v-spacer
     v-toolbar-items.hidden-sm-and-down
       v-btn( nuxt :to="item.to" exact :key="i" v-for="(item, i) in items" flat ) {{item.title}}
@@ -9,18 +9,19 @@
     v-toolbar-items
       v-btn( v-if="!logged" nuxt to="/login" small flat class="font-weight-black") Login
       v-btn( v-if="!logged" nuxt to="/signup" color="success" small class="font-weight-black") Registrate
-      v-menu( v-if="logged" left bottom )
-        template( v-slot:activator="{ on }")
-          v-btn( icon v-on="on" )
-            v-icon mdi-dots-vertical
-        v-list
-          v-list-item(@click="() => {}")
-            v-list-item-title( nuxt to="/ego" small flat) Ego
-            v-list-item-title( small flat @click="signOut") Cerrar sesión
+      v-btn( v-if="logged" nuxt to="/user/profile" small flat) {{username}}!
+      v-btn( v-if="logged" @click="signOut" small flat ) Cerrar sesión 
+      //- v-menu( v-if="logged" left bottom )
+      //-   template( v-slot:activator="{ on }")
+      //-     v-btn( icon v-on="on" )
+      //-       v-icon mdi-dots-vertical
+      //-   v-list
+      //-     v-list-item(@click="() => {}")
+      //-       v-list-item-title( nuxt to="/ego" small flat) Ego
+      //-       v-list-item-title( small flat @click="signOut") Cerrar sesión
 </template>
 
 <script>
-import { auth } from '~/plugins/firebase'
 export default {
   name: 'toolbar',
   data () {
@@ -36,16 +37,12 @@ export default {
     }
   },
   computed: {
-    logged () { return this.$store.state.authId }
+    logged () { return this.$store.state.authId },
+    username () { return this.$store.state.user.username }
   },
   methods: {
     signOut () {
-      auth.signOut().then(() => {
-        this.$store.commit('SIGN_OUT')
-      }).catch(e => {
-        console.log('No se puedo cerrar la secion. Error: ')
-        console.log(e)
-      })
+      this.$store.dispatch('SIGN_OUT')
     }
   }
 }

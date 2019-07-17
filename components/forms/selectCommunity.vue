@@ -1,19 +1,19 @@
 <template lang="pug">
   v-form
     v-layout(column justify-center align-center)
-      v-flex(xs12 sm6).full-width
-        div(v-if='index')
-          #map-continents
-            ul.continents
-              li.c1: a(href='#Africa' rel="nofollow") Africa
-              li.c2: a(href='#Asia' rel="nofollow") Asia
-              li.c3: a(href='#Oceania' rel="nofollow") Oceania
-              li.c4: a(href='#Europe' rel="nofollow") Europe
-              li.c5: a(href='#Americas' rel="nofollow") Norte America
-              li.c6: a(href='#Americas' rel="nofollow") Sur America
-          p(class="text-xs-center mb-2") Toca sobre un continente
+      v-flex(v-if="showMap" xs12 sm6).full-width
+        #map-continents
+          ul.continents
+            li.c1: a(href='#Africa' rel="nofollow") Africa
+            li.c2: a(href='#Asia' rel="nofollow") Asia
+            li.c3: a(href='#Oceania' rel="nofollow") Oceania
+            li.c4: a(href='#Europe' rel="nofollow") Europe
+            li.c5: a(href='#Americas' rel="nofollow") Norte America
+            li.c6: a(href='#Americas' rel="nofollow") Sur America
+        p(class="text-xs-center mb-2") Toca sobre un continente
+      v-flex(v-else xs12 sm6).text-xs-center
+        h2.caption CONTINENTES
         v-select(
-          v-else
           :items='continents'
           label='Continent'
           v-model='selectedContinent'
@@ -30,6 +30,8 @@
           :loading='loading'
           solo
         )
+      v-flex(xs12 sm6).text-xs-center
+        v-alert(:value="error" type="error") {{ error }}
       p(class="text-xs-center") #[strong Mis comunidades:] Comunidad Global{{this.selectedContinent?', ' + this.selectedContinent:''}}{{this.selectedCountry?', ' + this.selectedCountry: ''}}.
       v-flex(v-if='showbtn' xs12)
         v-btn( nuxt to='/signup' color='success' class="px-5")
@@ -43,11 +45,12 @@ export default {
   name: 'selectCommunity',
   props: {
     showbtn: { type: Boolean, required: false, default: true },
-    index: { type: Boolean, required: false, default: true }
+    showMap: { type: Boolean, required: false, default: true }
   },
   data () {
     return {
       placeholder: 'Toca sobre un continente',
+      error: '',
       loading: false,
       disabled: true,
       continents: ['Asia', 'Africa', 'Europe', 'Norte America', 'Sur America', 'Oceania', 'Polos'],
@@ -83,15 +86,17 @@ export default {
   },
   watch: {
     async selectedContinent (newVal) {
-      console.log('NEWVAL')
-      console.log(newVal)
-      this.loading = !this.loading
-      let result = await apiGeounity.get(`${newVal}/countries`)
-      this.countries = result.data.map((item) => item.name)
+      this.loading = true
+      try {
+        let result = await apiGeounity.get(`${newVal}/countries`)
+        this.countries = result.data.map((item) => item.name)
+      } catch (e) {
+        this.error = `Error: ${e}`
+      }
       console.log('COUNTRIES')
       console.log(this.countries)
       this.placeholder = `Paises de ${newVal}`
-      this.loading = !this.loading
+      this.loading = false
       this.disabled = false
       this.$store.commit('UPDATE_GEOCOMMUNITY', { name: newVal, level: 2 })
     },

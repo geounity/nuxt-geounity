@@ -1,5 +1,9 @@
 <template lang="pug">
-  empty-page(page="encuestas").mt-3
+  v-container
+    v-layout
+      v-flex
+        v-card( v-for="(s, i) in statics" :key="i")
+          p {{ s }}
 </template>
 
 <script>
