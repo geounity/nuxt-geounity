@@ -3,15 +3,17 @@
     v-flex(lg8)
       v-alert(value="true" color="info" class="my-3" dismissible)
         h3 Se uno de los pimeros usuarios en registrarse
-      v-stepper(v-model="step")
+      v-stepper(v-model="step" alt-labels)
         v-stepper-header
-          v-stepper-step(:complete="step > 1" step="1" editable) Tu comunidad
+          v-stepper-step(:complete="step > 1" step="1" editable color="#246d7b") Tu comunidad
           v-divider
           v-stepper-step(:complete="step > 2" step="2") Registra tu usuario
           v-divider
           v-stepper-step(:complete="step > 3" step="3") Información complementaria
         v-stepper-items(class="mt-2")
           v-stepper-content(step="1")
+            v-layout
+              v-flex
             world-map(v-if="geocommunity.length === 1")
             template(v-else)
               h2 Mostrar el mapa del país

@@ -1,6 +1,6 @@
 <template lang="pug">
   .map-container(class="text-align-center")
-    #world-map(:style='fontSize')
+    #world-map(style="height:400px")
 </template>
 
 <script>
@@ -13,14 +13,6 @@ if (process.browser) {
 }
 export default {
   name: 'worldmap',
-  computed: {
-    fontSize () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 'height:300px'
-        default: return 'height:400px'
-      }
-    }
-  },
   mounted () {
     this.drawMap()
   },
