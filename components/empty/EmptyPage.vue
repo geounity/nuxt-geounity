@@ -1,21 +1,34 @@
 <template lang="pug">
   .empty_state
     h3 No hay {{page}} en esta comunidad
-    p Para crear una {{page}} registrate
-    v-btn( nuxt to="/" color="success") Registrarte
+    template(v-if="!logged")
+      p Para crear una {{page}} registrate
+      v-btn( nuxt to="/signup" color="success") Registrarte
+    template(v-else)
+      p Se el primero en crear una encuesta para tu comunidad
+      v-btn( nuxt to="/poll/new" color="primary" ) Crear encuesta
 </template>
 
 <script>
 export default {
   name: 'emptyPage',
-  props: ['page']
+  props: ['page'],
+  data () {
+    return {
+    }
+  },
+  computed: {
+    logged () {
+      return this.$store.state.authId
+    }
+  }
 }
 </script>
 
 
 <style lang="stylus">
   body,html{
-    height: 100%;
+    height: 100% !important;
   }
 
   *{
@@ -39,20 +52,6 @@ export default {
       margin: 0px;
       color: #999;
       text-align: center;
-    }
-    button{
-      outline: none;
-      border:  none;
-      border-radius: 3px;
-      padding: 8px 8px;
-      margin: 20px auto auto auto;
-      max-width: 200px;
-      background: #348AC7;
-      color: white;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      font-size: 12px;
-      
     }
   }
 </style>

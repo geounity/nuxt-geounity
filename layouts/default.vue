@@ -15,7 +15,6 @@
   import guToolbar from '~/components/layout/Toolbar.vue'
   import guBottomNav from '~/components/layout/BottomNav.vue'
   import guFooter from '~/components/layout/Footer.vue'
-  import Modal from '~/components/Modal.vue'
   export default {
     components: { guBottomNav, guToolbar, guFooter },
     data () {

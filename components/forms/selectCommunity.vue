@@ -2,14 +2,7 @@
   v-form
     v-layout(column justify-center align-center)
       v-flex(v-if="showMap" xs12 sm6).full-width
-        #map-continents
-          ul.continents
-            li.c1: a(href='#Africa' rel="nofollow") Africa
-            li.c2: a(href='#Asia' rel="nofollow") Asia
-            li.c3: a(href='#Oceania' rel="nofollow") Oceania
-            li.c4: a(href='#Europe' rel="nofollow") Europe
-            li.c5: a(href='#Americas' rel="nofollow") Norte America
-            li.c6: a(href='#Americas' rel="nofollow") Sur America
+        world-map
         p(class="text-xs-center mb-2") Toca sobre un continente
       v-flex(v-else xs12 sm6).text-xs-center
         h2.caption CONTINENTES
@@ -36,10 +29,10 @@
       v-flex(v-if='showbtn' xs12)
         v-btn( nuxt to='/signup' color='success' class="px-5")
           strong Unete
-      v-flex(xs12 sm6)
 </template>
 <script>
 import apiGeounity from '~/plugins/api'
+import WorldMap from '~/components/maps/World.vue'
 
 export default {
   name: 'selectCommunity',
@@ -47,6 +40,7 @@ export default {
     showbtn: { type: Boolean, required: false, default: true },
     showMap: { type: Boolean, required: false, default: true }
   },
+  components: { WorldMap },
   data () {
     return {
       placeholder: 'Toca sobre un continente',
@@ -67,17 +61,7 @@ export default {
     if (l > 2) {
       this.selectedCountry = this.geocommunity[2].name
     }
-    // CSSMap;
-    let self = this
-    window.$(document).ready(function () {
-      window.$('#map-continents').CSSMap({
-        'size': 650,
-        onClick: function (listItem) {
-          self.selectedContinent = listItem[0].textContent
-        }
-      })
-      // END OF THE CSSMap;
-    })
+    // self.selectedContinent = listItem[0].textContent
   },
   computed: {
     geocommunity () {

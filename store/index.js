@@ -1,12 +1,10 @@
 import { auth, db } from '~/plugins/firebase'
+import apiGeounity from '~/plugins/api'
 
 export const state = () => ({
   loading: false,
   error: false,
   authId: null,
-  modals: {
-    login: false
-  },
   user: {
     username: null,
     email: null,
@@ -21,22 +19,31 @@ export const state = () => ({
   geocommunity: [
     {
       name: 'Global',
-      polls: [],
-      statics: ['ejemplo', 'otroejemplo'],
-      debates: [],
-      aims: []
+      level: 1,
+      polls: '',
+      statics: '',
+      debates: '',
+      aims: ''
     }
-  ]
+  ],
   // , otro tipo de comunidades como las empresas, organizaciones, ideologías
+  country: null
 })
 
 export const getters = {
+  geocommunity: state => state.geocommunity,
   statics: state => state.geocommunity[state.geocommunity.length - 1].statics
 }
 
 export const mutations = {
   SET_AUTHID: (state, id) => {
     state.authId = id
+  },
+  SET_COUNTRY: (state, payload) => {
+    state.country = {
+      ...state.country,
+      ...payload
+    }
   },
   SET_MODAL_STATE: (state, { name, value }) => {
     state.modals[name] = value
@@ -51,22 +58,26 @@ export const mutations = {
       ...payload
     }
   },
-  UPDATE_GEOCOMMUNITY: (state, { name, level }) => {
+  UPDATE_GEOCOMMUNITY: (state, payload = {}) => {
     console.log('PRUEBA')
-    console.log(name)
-    console.log(level)
-    state.geocommunity[level - 1] = {}
-    state.geocommunity[level - 1].name = name
+    console.log(payload.name)
+    let l = state.geocommunity.length
+    let i = payload.level
+    for (i; i <= l; i++) {
+      state.geocommunity.pop()
+    }
+    state.geocommunity.push(payload)
   }
 }
 
 export const actions = {
-  FETCH_USER: ({ state, commit }, { id }) => new Promise((resolve) => {
-    // traer de firestore el usuario con sus encuestas
-  }),
-  FETCH_AUTH_USER: ({ commit }) => {
-    const userId = auth.currentUser.uid
-    commit('SET_AUTHID', userId)
+  CREATE_POLL: ({ state, commit }, poll) => {
+    const newPoll = poll
+    const pollId = `poll${Math.random()}`
+    newPoll['key'] = pollId
+    newPoll.userId = state.authId
+    commit('SET_POLL', { newPoll, pollId })
+    commit('APPEND_POLL_TO_USER', { pollId, userId: newPoll.userId })
   },
   CREATE_USER: ({ state, commit }, { email, username, password }) => new Promise((resolve) => {
     auth.createUserWithEmailAndPassword(email, password).then((account) => {
@@ -86,14 +97,22 @@ export const actions = {
       console.log(newUser)
     })
   }),
-  CREATE_POLL: ({ state, commit }, poll) => {
-    const newPoll = poll
-    const pollId = `poll${Math.random()}`
-    newPoll['key'] = pollId
-    newPoll.userId = state.authId
-    commit('SET_POLL', { newPoll, pollId })
-    commit('APPEND_POLL_TO_USER', { pollId, userId: newPoll.userId })
+  FETCH_AUTH_USER: ({ commit }) => {
+    const userId = auth.currentUser.uid
+    commit('SET_AUTHID', userId)
   },
+  FETCH_COUNTRY: ({ commit }, code) => {
+    apiGeounity.get(`/country/${code}`)
+      .then((country) => {
+        let data = country.data
+        commit('UPDATE_GEOCOMMUNITY', { name: data.in_continent, level: 2 }) // Agregando el continente que contiene al país
+        commit('UPDATE_GEOCOMMUNITY', { ...data, level: 3 })
+        commit('SET_COUNTRY', data)
+      })
+  },
+  FETCH_USER: ({ state, commit }, { id }) => new Promise((resolve) => {
+    // traer de firestore el usuario con sus encuestas
+  }),
   SIGN_IN: (ctx, { email, password }) => {
     return auth.signInWithEmailAndPassword(email, password)
   },

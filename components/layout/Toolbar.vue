@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar( color="#8e44ad" dense dark app )
+  v-toolbar( color="rgb(62, 6, 148)" dense dark app )
     v-toolbar-title
       nuxt-link( to="/" exact class="font-weight-black") {{title}}
     v-spacer

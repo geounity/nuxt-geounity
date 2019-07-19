@@ -1,9 +1,11 @@
 <template lang="pug">
-  v-container
-    v-layout
-      v-flex
-        v-card( v-for="(s, i) in statics" :key="i")
-          p {{ s }}
+  main
+    v-container(v-if="statics")
+      v-layout
+        v-flex
+          v-card( v-for="(s, i) in statics" :key="i")
+            p {{ s }}
+    empty-page(v-else page="encuestas")
 </template>
 
 <script>
@@ -27,3 +29,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+main{
+  height: 100%;
+}
+</style>
