@@ -25,7 +25,6 @@
       icons: [
         'fab fa-facebook',
         'fab fa-twitter',
-        'fab fa-linkedin',
         'fab fa-instagram'
       ]
     })
