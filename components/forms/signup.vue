@@ -1,5 +1,6 @@
 <template lang="pug">
   v-form(v-model="value" ref="form" lazy-validation class="mb-5")
+    v-alert(:value="error" color="warning" class="my-3" dismissible) {{ error }}
     v-text-field(
       v-model="formRegister.email"  
       :rules="emailRules"
@@ -67,6 +68,11 @@ export default {
         v => v.length <= 256 || 'Password must be less than 256 characters',
         v => v.length >= 6 || 'Password must be more than 6 characters'
       ]
+    }
+  },
+  computed: {
+    error () {
+      return this.$store.state.error
     }
   },
   methods: {

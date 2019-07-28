@@ -6,7 +6,7 @@ export const state = () => ({
   error: false,
   authId: null,
   user: {
-    username: null,
+    username: 'user',
     email: null,
     emailVerified: null,
     photoURL: '',
@@ -20,6 +20,7 @@ export const state = () => ({
     {
       name: 'Global',
       level: 1,
+      divisionName: 'Continents',
       polls: '',
       statics: '',
       debates: '',
@@ -37,6 +38,12 @@ export const getters = {
 }
 
 export const mutations = {
+  DELETE_IMAGE_USER: (state) => {
+    state.user.photoURL = ''
+  },
+  DELETE_LAST_GEOCOMMUNITY: (state) => {
+    state.geocommunity.pop()
+  },
   LOADING_OFF: (state) => {
     state.loading = false
   },
@@ -52,6 +59,9 @@ export const mutations = {
       ...payload
     }
   },
+  SET_ERROR: (state, error) => {
+    state.error = error
+  },
   SET_MODAL_STATE: (state, { name, value }) => {
     state.modals[name] = value
   },
@@ -66,8 +76,7 @@ export const mutations = {
     }
   },
   UPDATE_GEOCOMMUNITY: (state, payload = {}) => {
-    console.log('PRUEBA')
-    console.log(payload.name)
+    console.log(payload.name || payload.country)
     let l = state.geocommunity.length
     let i = payload.level
     for (i; i <= l; i++) {
@@ -100,8 +109,6 @@ export const actions = {
     commit('APPEND_POLL_TO_USER', { pollId, userId: newPoll.userId })
   },
   CREATE_USER: ({ state, commit }, { email, username, password }) => new Promise((resolve) => {
-    console.log('ENTRAMOS')
-    console.log('email', email, 'passowrd', password, 'username', username)
     auth.createUserWithEmailAndPassword(email, password).then((account) => {
       account.snapshotlayName = username
       console.log('ACCOUNT')
@@ -124,6 +131,8 @@ export const actions = {
       // Guardar en Cloud
       console.log('newUser')
       console.log(newUser)
+    }).catch((e) => {
+      commit('SET_ERROR', e)
     })
   }),
   DELETE_IMAGE_USER: ({ state }, fileName) => storage.ref('images/' + fileName).delete(),
@@ -134,15 +143,21 @@ export const actions = {
   FETCH_COUNTRY: ({ commit }, code) => {
     apiGeounity.get(`/country/${code}`)
       .then((country) => {
-        let data = country.data
-        commit('UPDATE_GEOCOMMUNITY', { name: data.in_continent, level: 2 }) // Agregando el continente que contiene al país
-        commit('UPDATE_GEOCOMMUNITY', { ...data, level: 3 })
+        let { data } = country
+        commit('UPDATE_GEOCOMMUNITY', { name: data.in_continent, level: 2, divisionName: 'Countries' }) // Add continent
+        commit('UPDATE_GEOCOMMUNITY', { ...data, level: 3 }) // Add country
         commit('SET_COUNTRY', data)
       })
+  },
+  FETCH_STATES: ({ commit }, countryCode) => {
+    return apiGeounity.get(`/${countryCode}/states`)
   },
   FETCH_USER: ({ state, commit }, { id }) => new Promise((resolve) => {
     // traer de firestore el usuario con sus encuestas
   }),
+  GET_POPULATION_TOTAL: () => {
+    return apiGeounity.get('/population')
+  },
   SIGN_IN: (ctx, { email, password }) => {
     return auth.signInWithEmailAndPassword(email, password)
   },

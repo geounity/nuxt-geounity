@@ -2,6 +2,9 @@ const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const webpack = require('webpack')
 module.exports = {
+  server: {
+    host: '0.0.0.0' // default: localhost
+  },
   /*
   ** Headers of the page
   */

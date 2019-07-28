@@ -1,14 +1,15 @@
 <template lang="pug">
   v-form
-    v-layout( justify-space-around align-center wrap )
-      v-flex(xs12)
-        h2.title.text-xs-center.my-5 Queremos saber un poco mas sobre ti
-      v-flex(xs3 class="text-xs-center")
+    v-layout( justify-center align-center wrap )
+      v-flex(xs12 class="text-xs-center my-3")
+        h2.title.text-xs-center Queremos saber un poco mas sobre ti
+        h5.body-1 Datos opcionales, complete los que desee.
+      v-flex(xs12 sm9 md7 lg4 class="text-xs-center")
         figure
           v-img(
-            :src="downloadURL?downloadURL:'https://firebasestorage.googleapis.com/v0/b/geounity.appspot.com/o/images%2Fdefault-user.png?alt=media&token=9f3d602d-692a-457f-aca0-37afc2f052fb'",
+            :src="downloadURL?downloadURL:'/sinfoto.png'",
             style="margin:1rem auto"
-            width="250px"
+            width="200px"
           )
         v-btn(
           v-if="!loading",
@@ -40,35 +41,38 @@
             color="error"
             @click.once="deleteImage()"
           ) Borrar imagen
-      v-flex(xs3)
+      v-flex(xs11 sm9 md7 lg4 class="mt-2")
         v-text-field(
           v-model="formInfo.name"
           label="Nombre"
+          style="max-width:450px; margin:0 auto"
           solo
         )
         v-text-field(
           v-model="formInfo.lastName"
           label="Apellido"
+          style="max-width:450px; margin:0 auto"
           solo
         )
-      v-flex(xs3)
+      v-flex(xs12 lg4 class="mt-2 text-xs-center")
+        h3.body-2.text-xs-center Fecha de nacimiento
         v-date-picker(v-model="formInfo.birthDate" color="green lighten-1")
-      v-flex(xs11)
+      //- v-divider(vertical)
+      v-flex(xs12 lg6 class="mt-5")
+        h3.subheading.text-xs-center.my-2 Previsualización de tu caja de opiniones
+        v-card(style="max-width:450px;margin:0 auto" class="elevation-5")
+          v-card-title
+            img(:src="downloadURL?downloadURL:'/sinfoto.png'" width="50" height="50" class="mr-2" style="border-radius:50%")
+            div
+              h3.subheading #[strong {{username}}] ( {{formInfo.name}} {{formInfo.lastName}} )
+              h4.body-2 {{formInfo.birthDate?yearsOld:'xx'}} años
+          v-card-text
+            p Esto es un texto de ejemplo. Usted puede dar su punto de vista sobre algún debate. Su opinión aparecera en una caja como esta.
+          v-divider
+          v-card-actions
+            v-icon fab fa-facebook
+      v-flex(xs11 class="mt-3")
         v-btn( @click="save" color="primary" block) Guardar
-    v-layout( justify-center wrap )
-      v-flex(xs12)
-        h2.title.text-xs-center.my-3 Previsualización del la caja de comentarios
-      v-flex(class="text-xs-center")
-        v-card(width="500px" style="margin:0 auto" class="elevation-4")
-          v-layout(justify-start)
-            v-flex
-              v-avatar(v-if="downloadURL" size="48")
-                img(:src="downloadURL")
-            v-flex
-              h2.title {{formInfo.name}} {{formInfo.lastName}}
-          v-layout
-            v-flex(xs12)
-              p Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsum
             
 </template>
 
@@ -78,8 +82,8 @@ export default {
     return {
       formInfo: {
         fileName: '',
-        name: '',
-        lastName: '',
+        name: 'Nombre',
+        lastName: 'Apellido',
         birthDate: ''
       }
     }
@@ -93,6 +97,19 @@ export default {
     },
     progressUpload () {
       return this.$store.state.progressUpload
+    },
+    username () {
+      return this.$store.state.user.username
+    },
+    yearsOld () {
+      let today = new Date()
+      let birthDate = new Date(this.formInfo.birthDate)
+      let yearsOld = today.getFullYear() - birthDate.getFullYear()
+      let month = today.getMonth() - birthDate.getMonth()
+      if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        yearsOld--
+      }
+      return yearsOld
     }
   },
   methods: {

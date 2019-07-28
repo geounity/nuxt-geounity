@@ -7,29 +7,6 @@
 <script>
   import { auth, authProviders } from '~/plugins/firebase'
   
-  var uiConfig = {
-    signInSuccessUrl: '/',
-    signInFlow: 'popup',
-    signInOptions: [
-      // Leave the lines as is for the providers you want to offer your users.
-      authProviders.Google,
-      authProviders.Facebook,
-      authProviders.Twitter,
-      authProviders.Github,
-      authProviders.Email
-    ],
-    tosUrl: '/politics',
-    privacyPolicyUrl: '/privacy-policy',
-    callbacks: {
-      sugnInSuccessWithAuthResult: function () {
-        console.log('signInSuccessWithAuthResult')
-      },
-      uiShown: function () {
-        console.log('uiShown')
-      }
-    }
-  }
-  
   export default {
     name: 'userLogin',
     data () {
@@ -37,6 +14,28 @@
       }
     },
     mounted () {
+      let self = this
+      let uiConfig = {
+        signInFlow: 'popup',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          authProviders.Google,
+          authProviders.Facebook,
+          authProviders.Twitter,
+          authProviders.Github
+        ],
+        tosUrl: '/politics',
+        privacyPolicyUrl: '/privacy-policy',
+        callbacks: {
+          signInSuccessWithAuthResult: function () {
+            console.log('signInSuccessWithAuthResult')
+            self.$emit('nextStep')
+          },
+          uiShown: function () {
+            console.log('uiShown')
+          }
+        }
+      }
       if (process.browser) {
         let firebaseui = require('firebaseui')
         const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth)

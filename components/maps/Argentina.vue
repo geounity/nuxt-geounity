@@ -18,15 +18,17 @@ export default {
   },
   methods: {
     drawMap () {
-      // let self = this
+      let self = this
       $(document).ready(function () {
         $('#argentina-map').vectorMap({
           map: 'ar_mill',
           backgroundColor: '#246d7b',
           onRegionClick (e, code) {
-            // self.$store.dispatch('FETCH_COUNTRY', code)
+            self.$store.commit('UPDATE_GEOCOMMUNITY', { name: code })
             console.log('codigo de la provincia')
             console.log(code)
+            console.log('e')
+            console.log(e)
           }
         })
       })

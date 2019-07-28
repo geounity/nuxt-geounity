@@ -23,9 +23,10 @@
   export default {
     data: () => ({
       icons: [
-        'fab fa-facebook',
+        'fab fa-linkedin',
         'fab fa-twitter',
-        'fab fa-instagram'
+        'fab fa-instagram',
+        'fab fa-facebook'
       ]
     })
   }
