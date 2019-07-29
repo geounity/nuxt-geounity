@@ -2,7 +2,7 @@
   <v-app>
     <gu-toolbar></gu-toolbar>
     <v-content>
-      <v-alert :value="alert" type="warning">Version beta</v-alert>
+      <v-alert :value="alert.value" :type="alert.type">{{alert.message}}</v-alert>
       <nuxt />
     </v-content>
     <gu-footer></gu-footer>
@@ -19,7 +19,11 @@
     components: { guBottomNav, guToolbar, guFooter },
     data () {
       return {
-        alert: false
+        alert: {
+          value: false,
+          type: '', // 'success', 'info', 'warning', 'error'
+          message: ''
+        }
       }
     },
     beforeMount () {
